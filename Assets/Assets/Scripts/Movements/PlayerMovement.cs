@@ -1,22 +1,17 @@
 using UnityEngine;
 
-
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField]
-    private float walkSpeed = 3.5f;
-    [SerializeField]
-    private float runSpeed = 5.5f;
-    [SerializeField]
-    private float gravity = -9.81f;
+    
+    public float walkSpeed = 3.5f;
+    public float runSpeed = 5.5f;
+    public float gravity = -9.81f;
 
-    private CharacterController controller;
-    private Vector3 velocity;
+    CharacterController controller;
+    InputReader input;
 
-    private PlayerInputActions inputActions;
-    private Vector2 moveInput;
+    Vector3 velocity;
 
     public Vector3 MoveDirection { get; private set; }
     public bool IsRunning { get; private set; }
@@ -24,39 +19,26 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        inputActions = new PlayerInputActions();
-    }
-
-    void OnEnable()
-    {
-        inputActions.Enable();
-
-        inputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
-
-        inputActions.Player.Run.performed += ctx => IsRunning = true;
-        inputActions.Player.Run.canceled += ctx => IsRunning = false;
-    }
-
-    void OnDisable()
-    {
-        inputActions.Disable();
+        input = GetComponent<InputReader>();
     }
 
     void Update()
     {
-        HandleMovement();
+        Move();
+        ApplyGravity();
     }
 
-    void HandleMovement()
+    void Move()
     {
+        Vector2 move = input.Move;
+
+        IsRunning = input.Run;
+
         float speed = IsRunning ? runSpeed : walkSpeed;
 
-        MoveDirection = transform.right * moveInput.x + transform.forward * moveInput.y;
+        MoveDirection = transform.right * move.x + transform.forward * move.y;
 
         controller.Move(MoveDirection * speed * Time.deltaTime);
-
-        ApplyGravity();
     }
 
     void ApplyGravity()
