@@ -7,7 +7,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField]
     private Transform cameraPivot;
     [SerializeField]
-    private float sensitivity = 2f;
+    private float sensitivity;
     private float xRotation;
     public float MouseX { get; private set; }
 
