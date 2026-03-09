@@ -3,9 +3,9 @@ using UnityEngine;
 public class StrafeTilt : MonoBehaviour
 {
     [SerializeField]
-    public float tiltAmount = 2f;
+    private float tiltAmount = 2f;
     [SerializeField]
-    public float smoothSpeed = 6f;
+    private float smoothSpeed = 6f;
 
     float currentTilt;
 
