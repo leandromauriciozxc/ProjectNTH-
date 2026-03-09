@@ -3,14 +3,12 @@ using UnityEngine;
 public class PlayerLook : MonoBehaviour
 {
     [SerializeField]
+    private InputReader input;
+    [SerializeField]
     private Transform cameraPivot;
     [SerializeField]
     private float sensitivity = 2f;
-    [SerializeField]
-    private InputReader input;
-
     private float xRotation;
-
     public float MouseX { get; private set; }
 
     void Update()
