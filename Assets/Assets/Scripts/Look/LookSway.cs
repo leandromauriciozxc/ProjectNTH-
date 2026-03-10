@@ -21,6 +21,9 @@ public class LookSway : MonoBehaviour
 
         currentOffset.x = Mathf.Lerp(currentOffset.x, sway, Time.deltaTime * smoothSpeed);
 
+        if (Mathf.Abs(mouseX) < 0.01f)
+            currentOffset.x = Mathf.Lerp(currentOffset.x, 0f, Time.deltaTime * smoothSpeed);
+
         transform.localPosition = initialPos + currentOffset;
     }
 }
