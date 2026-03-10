@@ -6,6 +6,10 @@ public class StrafeTilt : MonoBehaviour
     private float tiltAmount = 2f;
     [SerializeField]
     private float smoothSpeed = 6f;
+    [SerializeField] 
+    private float tiltReturnSpeed = 4f;
+    [SerializeField] 
+    private float tiltSpeed = 8f;
 
     float currentTilt;
 
@@ -13,8 +17,10 @@ public class StrafeTilt : MonoBehaviour
     {
         float targetTilt = -inputX * tiltAmount;
 
-        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * smoothSpeed);
+        float speed = Mathf.Abs(inputX) > 0.01f ? tiltSpeed : tiltReturnSpeed;
 
-        transform.localRotation = Quaternion.Euler(0, 0, currentTilt);
+        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * speed);
+
+        transform.localRotation = Quaternion.Euler(0f, 0f, currentTilt);
     }
 }

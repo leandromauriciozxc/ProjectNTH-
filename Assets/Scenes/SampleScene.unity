@@ -997,9 +997,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed61307c13a244bc3bba944e65083f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 6
-  runSpeed: 9
-  bobAmount: 0.03
+  walkSpeed: 7
+  runSpeed: 10
+  bobAmount: 0.07
 --- !u!1 &2133940582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1047,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tiltAmount: 2
   smoothSpeed: 6
+  tiltReturnSpeed: 4
+  tiltSpeed: 8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
