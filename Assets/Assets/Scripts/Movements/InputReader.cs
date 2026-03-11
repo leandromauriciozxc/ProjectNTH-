@@ -7,6 +7,7 @@ public class InputReader : MonoBehaviour
     public Vector2 Move { get; private set; }
     public Vector2 Look { get; private set; }
     public bool Run { get; private set; }
+    public bool Lookback { get; private set; }
 
     void Awake()
     {
@@ -27,6 +28,8 @@ public class InputReader : MonoBehaviour
     {
         Move = input.Player.Move.ReadValue<Vector2>();
         Look = input.Player.Look.ReadValue<Vector2>();
-        Run = input.Player.Run.IsPressed();
+        //Run = input.Player.Run.IsPressed();
+        Run = input.Player.Run.ReadValue<float>() > 0;
+        Lookback = input.Player.LookBack.ReadValue<float>() > 0;
     }
 }

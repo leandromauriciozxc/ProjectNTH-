@@ -22,6 +22,6 @@ public class CameraMotionController : MonoBehaviour
         headBob.UpdateBob(movement.MoveDirection, movement.IsRunning);
         strafeTilt.UpdateTilt(InputReader.Move);
         lookSway.UpdateSway(look.MouseX);
-        //idleBreathing.UpdateBreath(movement.MoveDirection.magnitude);
+        idleBreathing.UpdateBreath(movement.MoveDirection.magnitude);
     }
 }
