@@ -2,38 +2,66 @@ using UnityEngine;
 
 public class HeadBob : MonoBehaviour
 {
-    [SerializeField]
-    private float walkSpeed = 6f;
-    [SerializeField]
-    private float runSpeed = 9f;
-    [SerializeField]
-    private float bobAmount = 0.03f;
+    [Header("Speed")]
+    [SerializeField] float walkBobSpeed = 6f;
+    [SerializeField] float runBobSpeed = 9f;
 
-    float timer;
+    [Header("Motion Amount")]
+    [SerializeField] float verticalAmount = 0.025f;
+    [SerializeField] float horizontalAmount = 0.015f;
+    [SerializeField] float forwardAmount = 0.008f;
+
+    [Header("Return Speed")]
+    [SerializeField] float returnSpeed = 5f;
+
+    float bobTimer;
+
     Vector3 startPos;
+    Vector3 currentOffset;
 
     void Start()
     {
         startPos = transform.localPosition;
     }
 
-    public void UpdateBob(Vector3 moveDir, bool running)
+    public void UpdateBob(Vector3 moveDirection, bool isRunning)
     {
-        if (moveDir.magnitude > 0.1f)
+        float movementAmount = moveDirection.magnitude;
+
+        if (movementAmount > 0.1f)
         {
-            float speed = running ? runSpeed : walkSpeed;
+            float speed = isRunning ? runBobSpeed : walkBobSpeed;
 
-            timer += Time.deltaTime * speed;
+            bobTimer += movementAmount * Time.deltaTime * speed;
 
-            float y = Mathf.Sin(timer) * bobAmount;
-            float x = Mathf.Cos(timer * 0.5f) * bobAmount * 0.5f;
+            float wave = Mathf.Sin(bobTimer);
 
-            transform.localPosition = startPos + new Vector3(x, y, 0);
+            // Vertical head drop during step impact
+            float vertical = wave * Mathf.Abs(wave) * verticalAmount;
+
+            // Side sway
+            float horizontal = Mathf.Cos(bobTimer * 0.5f) * horizontalAmount;
+
+            // Forward momentum
+            float forward = Mathf.Sin(bobTimer * 0.5f) * forwardAmount;
+
+            // NEW: step weight shift
+            float stepWeight = Mathf.Sin(bobTimer * 0.5f);
+            horizontal += stepWeight * horizontalAmount * 0.5f;
+
+            float intensity = Mathf.Clamp01(movementAmount);
+
+            currentOffset = new Vector3(horizontal, vertical, forward) * intensity;
         }
         else
         {
-            timer = 0;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, startPos, Time.deltaTime * 5f);
+            currentOffset = Vector3.Lerp(
+                currentOffset,
+                Vector3.zero,
+                Time.deltaTime * returnSpeed
+            );
         }
+
+        transform.localPosition = startPos + currentOffset;
     }
 }

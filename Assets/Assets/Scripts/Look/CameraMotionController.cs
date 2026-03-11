@@ -3,6 +3,8 @@ using UnityEngine;
 public class CameraMotionController : MonoBehaviour
 {
     [SerializeField]
+    private InputReader InputReader;
+    [SerializeField]
     private PlayerMovement movement;
     [SerializeField]
     private PlayerLook look;
@@ -18,8 +20,8 @@ public class CameraMotionController : MonoBehaviour
     void Update()
     {
         headBob.UpdateBob(movement.MoveDirection, movement.IsRunning);
-        strafeTilt.UpdateTilt(movement.MoveDirection.x);
+        strafeTilt.UpdateTilt(InputReader.Move);
         lookSway.UpdateSway(look.MouseX);
-        idleBreathing.UpdateBreath(movement.MoveDirection.magnitude);
+        //idleBreathing.UpdateBreath(movement.MoveDirection.magnitude);
     }
 }
