@@ -13,6 +13,7 @@ public class HeadBob : MonoBehaviour
 
     [Header("Return Speed")]
     [SerializeField] float returnSpeed = 5f;
+    float sprintMultiplier = 1f;
 
     float bobTimer;
 
@@ -23,7 +24,12 @@ public class HeadBob : MonoBehaviour
     {
         startPos = transform.localPosition;
     }
+    
 
+    public void SetSprintMultiplier(float value)
+    {
+        sprintMultiplier = value;
+    }
     public void UpdateBob(Vector3 moveDirection, bool isRunning)
     {
         float movementAmount = moveDirection.magnitude;
@@ -51,7 +57,7 @@ public class HeadBob : MonoBehaviour
 
             float intensity = Mathf.Clamp01(movementAmount);
 
-            currentOffset = new Vector3(horizontal, vertical, forward) * intensity;
+            currentOffset = new Vector3(horizontal, vertical, forward) * intensity * sprintMultiplier;
         }
         else
         {

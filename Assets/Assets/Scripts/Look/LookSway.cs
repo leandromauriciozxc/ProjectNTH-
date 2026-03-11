@@ -9,15 +9,21 @@ public class LookSway : MonoBehaviour
 
     Vector3 initialPos;
     Vector3 currentOffset;
-
+    float sprintMultiplier = 1f;
     void Start()
     {
         initialPos = transform.localPosition;
     }
+   
+
+    public void SetSprintMultiplier(float value)
+    {
+        sprintMultiplier = value;
+    }
 
     public void UpdateSway(float mouseX)
     {
-        float sway = -mouseX * swayAmount;
+        float sway = -mouseX * swayAmount * sprintMultiplier;
 
         currentOffset.x = Mathf.Lerp(currentOffset.x, sway, Time.deltaTime * smoothSpeed);
 
