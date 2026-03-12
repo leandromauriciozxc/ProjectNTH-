@@ -13,10 +13,15 @@ public class HeadBob : MonoBehaviour
 
     [Header("Return Speed")]
     [SerializeField] float returnSpeed = 5f;
+    [Header("Impact")]
+    [SerializeField] float stepImpactAmount = 0.015f;
+    [SerializeField] float impactRecoverSpeed = 8f;
+
     float sprintMultiplier = 1f;
 
     float bobTimer;
-
+    float stepImpact;
+    float previousWave;
     Vector3 startPos;
     Vector3 currentOffset;
 
@@ -42,30 +47,29 @@ public class HeadBob : MonoBehaviour
 
             float wave = Mathf.Sin(bobTimer);
 
-            // Vertical head drop during step impact
+            // Footstep impact detection
+            if (previousWave > 0f && wave <= 0f)
+            {
+                if (isRunning)
+                    stepImpact = stepImpactAmount;
+            }
+
+            previousWave = wave;
+
             float vertical = wave * Mathf.Abs(wave) * verticalAmount;
-
-            // Side sway
             float horizontal = Mathf.Cos(bobTimer * 0.5f) * horizontalAmount;
-
-            // Forward momentum
             float forward = Mathf.Sin(bobTimer * 0.5f) * forwardAmount;
-
-            // NEW: step weight shift
-            float stepWeight = Mathf.Sin(bobTimer * 0.5f);
-            horizontal += stepWeight * horizontalAmount * 0.5f;
 
             float intensity = Mathf.Clamp01(movementAmount);
 
-            currentOffset = new Vector3(horizontal, vertical, forward) * intensity * sprintMultiplier;
+            // impact recovery
+            stepImpact = Mathf.Lerp(stepImpact, 0f, Time.deltaTime * impactRecoverSpeed);
+
+            currentOffset = new Vector3(horizontal, vertical - stepImpact, forward) * intensity * sprintMultiplier;
         }
         else
         {
-            currentOffset = Vector3.Lerp(
-                currentOffset,
-                Vector3.zero,
-                Time.deltaTime * returnSpeed
-            );
+            currentOffset = Vector3.Lerp(currentOffset, Vector3.zero, Time.deltaTime * returnSpeed);
         }
 
         transform.localPosition = startPos + currentOffset;
