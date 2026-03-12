@@ -1109,6 +1109,8 @@ MonoBehaviour:
   horizontalAmount: 0.1
   forwardAmount: 0.009
   returnSpeed: 0.1
+  stepImpactAmount: 0.015
+  impactRecoverSpeed: 8
 --- !u!1 &2133940582
 GameObject:
   m_ObjectHideFlags: 0
