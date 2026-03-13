@@ -9,67 +9,70 @@ public class HeadBob : MonoBehaviour
     [Header("Motion Amount")]
     [SerializeField] float verticalAmount = 0.025f;
     [SerializeField] float horizontalAmount = 0.015f;
-    [SerializeField] float forwardAmount = 0.008f;
+    [SerializeField] float forwardAmount = 0.01f;
 
-    [Header("Return Speed")]
+    [Header("Smoothness")]
+    [SerializeField] float bobFadeSpeed = 6f;
     [SerializeField] float returnSpeed = 5f;
-    [Header("Impact")]
-    [SerializeField] float stepImpactAmount = 0.015f;
-    [SerializeField] float impactRecoverSpeed = 8f;
 
-    float sprintMultiplier = 1f;
+    float bobCycle;
+    float bobWeight;
 
-    float bobTimer;
-    float stepImpact;
-    float previousWave;
     Vector3 startPos;
     Vector3 currentOffset;
+
+    float sprintMultiplier = 1f;
 
     void Start()
     {
         startPos = transform.localPosition;
     }
-    
 
     public void SetSprintMultiplier(float value)
     {
         sprintMultiplier = value;
     }
+
     public void UpdateBob(Vector3 moveDirection, bool isRunning)
     {
-        float movementAmount = moveDirection.magnitude;
+        float speed = moveDirection.magnitude;
 
-        if (movementAmount > 0.1f)
+        // smooth enable / disable
+        float targetWeight = speed > 0.1f ? 1f : 0f;
+
+        bobWeight = Mathf.Lerp(
+            bobWeight,
+            targetWeight,
+            Time.deltaTime * bobFadeSpeed
+        );
+
+        if (speed > 0.1f)
         {
-            float speed = isRunning ? runBobSpeed : walkBobSpeed;
+            float bobSpeed = isRunning ? runBobSpeed : walkBobSpeed;
 
-            bobTimer += movementAmount * Time.deltaTime * speed;
+            // STEP CYCLE (independent of direction)
+            bobCycle += Time.deltaTime * bobSpeed * speed;
 
-            float wave = Mathf.Sin(bobTimer);
+            float vertical = Mathf.Sin(bobCycle) * verticalAmount;
 
-            // Footstep impact detection
-            if (previousWave > 0f && wave <= 0f)
-            {
-                if (isRunning)
-                    stepImpact = stepImpactAmount;
-            }
+            float horizontal = Mathf.Sin(bobCycle * 0.5f) * horizontalAmount;
 
-            previousWave = wave;
+            float forward = Mathf.Abs(Mathf.Sin(bobCycle)) * forwardAmount;
 
-            float vertical = wave * Mathf.Abs(wave) * verticalAmount;
-            float horizontal = Mathf.Cos(bobTimer * 0.5f) * horizontalAmount;
-            float forward = Mathf.Sin(bobTimer * 0.5f) * forwardAmount;
-
-            float intensity = Mathf.Clamp01(movementAmount);
-
-            // impact recovery
-            stepImpact = Mathf.Lerp(stepImpact, 0f, Time.deltaTime * impactRecoverSpeed);
-
-            currentOffset = new Vector3(horizontal, vertical - stepImpact, forward) * intensity * sprintMultiplier;
+            currentOffset = new Vector3(
+                horizontal,
+                vertical,
+                forward
+            ) * sprintMultiplier * bobWeight;
         }
         else
         {
-            currentOffset = Vector3.Lerp(currentOffset, Vector3.zero, Time.deltaTime * returnSpeed);
+            // smooth settle
+            currentOffset = Vector3.Lerp(
+                currentOffset,
+                Vector3.zero,
+                Time.deltaTime * returnSpeed
+            );
         }
 
         transform.localPosition = startPos + currentOffset;

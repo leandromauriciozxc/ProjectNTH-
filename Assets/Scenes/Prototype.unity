@@ -194,7 +194,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: e21d550516877470689236f75827d4a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -314,14 +314,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233571520}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.95565087, z: -0, w: 0.29450196}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1187365490}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -145.745, z: 0}
 --- !u!114 &233571523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1105,12 +1105,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkBobSpeed: 6
   runBobSpeed: 9
-  verticalAmount: 0.05
-  horizontalAmount: 0.1
-  forwardAmount: 0.009
-  returnSpeed: 0.1
-  stepImpactAmount: 0.015
-  impactRecoverSpeed: 8
+  verticalAmount: 0.025
+  horizontalAmount: 0.015
+  forwardAmount: 0.01
+  bobFadeSpeed: 6
+  returnSpeed: 5
 --- !u!1 &2133940582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,10 +1155,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2728fa797154c456bb9ca80d2c2d2af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strafeTiltAmount: 2
-  forwardTiltAmount: 1.2
-  tiltSpeed: 8
-  tiltReturnSpeed: 4
+  strafeTiltAmount: 1
+  forwardTiltAmount: 2
+  tiltSpeed: 6
+  tiltReturnSpeed: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
