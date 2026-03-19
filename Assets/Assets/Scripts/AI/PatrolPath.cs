@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class PatrolPath : MonoBehaviour
@@ -6,12 +7,9 @@ public class PatrolPath : MonoBehaviour
 
     void Awake()
     {
-        Points = new Transform[transform.childCount];
-
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            Points[i] = transform.GetChild(i);
-        }
+        Points = GetComponentsInChildren<PatrolPoint>()
+            .Select(p => p.transform)
+            .ToArray();
     }
 
     public Transform GetPoint(int index)
@@ -20,4 +18,22 @@ public class PatrolPath : MonoBehaviour
     }
 
     public int Length => Points.Length;
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Transform point = transform.GetChild(i);
+
+            Gizmos.DrawSphere(point.position, 0.2f);
+
+            if (i < transform.childCount - 1)
+            {
+                Gizmos.DrawLine(point.position, transform.GetChild(i + 1).position);
+            }
+        }
+    }
 }
