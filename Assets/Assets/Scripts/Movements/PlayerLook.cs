@@ -27,6 +27,6 @@ public class PlayerLook : MonoBehaviour
         cameraPivot.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
         transform.Rotate(Vector3.up * MouseX);
-        Debug.Log(look);
+        
     }
 }
