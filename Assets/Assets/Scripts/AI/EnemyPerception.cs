@@ -11,52 +11,44 @@ public class EnemyPerception : MonoBehaviour
     [SerializeField] float viewDistance = 10f;
     [SerializeField] float viewAngle = 90f;
 
+    [SerializeField] float loseSightDelay = 2f;
+
+    float lastSeenTime;
+    float timer;
+    float interval = 0.2f;
+
     public bool CanSeePlayer { get; private set; }
     public bool IsPlayerLookingAtEnemy { get; private set; }
 
     void Update()
     {
-        CheckVision();
-        CheckIfPlayerLooking();
+        timer += Time.deltaTime;
+
+        if (timer >= interval)
+        {
+            timer = 0f;
+            CheckVision();
+            CheckIfPlayerLooking();
+        }
     }
 
     void CheckVision()
     {
-        Vector3 dirToPlayer = player.position - eyePoint.position;
-        float distance = dirToPlayer.magnitude;
+        float distance = Vector3.Distance(eyePoint.position, player.position);
 
-        if (distance > viewDistance)
+        bool currentlySeeing = distance <= viewDistance;
+
+        if (currentlySeeing)
         {
-            CanSeePlayer = false;
-            return;
+            lastSeenTime = Time.time;
+            CanSeePlayer = true;
         }
-
-        float angle = Vector3.Angle(eyePoint.forward, dirToPlayer);
-
-        if (angle > viewAngle * 0.5f)
+        else
         {
-            CanSeePlayer = false;
-            return;
+            // MEMORY
+            CanSeePlayer = (Time.time - lastSeenTime) < loseSightDelay;
         }
-
-        // Raycast (check obstruction)
-        if (Physics.Raycast(
-            eyePoint.position,
-            dirToPlayer.normalized,
-            out RaycastHit hit,
-            viewDistance,
-            obstructionMask
-        ))
-        {
-            if (hit.transform == player)
-            {
-                CanSeePlayer = true;
-            }
-            else
-            {
-                CanSeePlayer = false;
-            }
-        }
+        Debug.Log("CanSeePlayer: " + CanSeePlayer);
     }
 
     void CheckIfPlayerLooking()

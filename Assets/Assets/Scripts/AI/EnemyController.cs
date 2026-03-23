@@ -16,7 +16,6 @@ public class EnemyController : MonoBehaviour
         StateMachine = GetComponent<EnemyStateMachine>();
         Perception = GetComponent<EnemyPerception>();
         Patrol = GetComponent<EnemyPatrol>();
-
         Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
