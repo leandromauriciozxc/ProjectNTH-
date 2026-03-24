@@ -4,14 +4,15 @@ public class EnemyPerception : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] Transform eyePoint;
-    [SerializeField] Transform player;
     [SerializeField] LayerMask obstructionMask;
 
     [Header("Vision Settings")]
     [SerializeField] float viewDistance = 10f;
-    [SerializeField] float viewAngle = 90f;
+    //[SerializeField] float viewAngle = 90f;
 
     [SerializeField] float loseSightDelay = 2f;
+    private EnemyController controller;
+    private Transform player;
 
     float lastSeenTime;
     float timer;
@@ -19,7 +20,14 @@ public class EnemyPerception : MonoBehaviour
 
     public bool CanSeePlayer { get; private set; }
     public bool IsPlayerLookingAtEnemy { get; private set; }
-
+    private void Start()
+    {
+        player = controller.PlayerCameraTransform;
+    }
+    private void Awake()
+    {
+        controller = GetComponent<EnemyController>();
+    }
     void Update()
     {
         timer += Time.deltaTime;
@@ -62,12 +70,24 @@ public class EnemyPerception : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-        if (eyePoint == null) return;
+        Transform debugPlayer = player;
+
+#if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            var p = FindObjectOfType<PlayerCamera>();
+            if (p != null)
+                debugPlayer = p.transform;
+        }
+#endif
+
+        if (eyePoint == null || debugPlayer == null)
+            return;
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(eyePoint.position, viewDistance);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(eyePoint.position, player.position);
+        Gizmos.DrawLine(eyePoint.position, debugPlayer.position);
     }
 }

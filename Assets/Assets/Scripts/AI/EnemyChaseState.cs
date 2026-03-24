@@ -22,7 +22,7 @@ public class EnemyChaseState : EnemyBaseState
         }
 
         // Always follow player
-        enemy.Agent.SetDestination(enemy.Player.position);
+        enemy.Agent.SetDestination(enemy.PlayerCameraTransform.position);
 
         // 🔥 YOUR CORE MECHANIC
         if (enemy.Perception.IsPlayerLookingAtEnemy)

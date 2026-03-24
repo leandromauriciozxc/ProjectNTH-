@@ -972,13 +972,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eyePoint: {fileID: 1052232413}
-  player: {fileID: 1505833209}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 0
   viewDistance: 10
-  viewAngle: 70
-  loseSightDelay: 4
+  loseSightDelay: 1
 --- !u!114 &1152657104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -991,6 +989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecd6ff56dd624e74b2f25053d8e037d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minStateDuration: 1
 --- !u!114 &1152657105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,6 +1164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1541718817}
   - component: {fileID: 1541718818}
+  - component: {fileID: 1541718819}
   m_Layer: 0
   m_Name: BreathingPivot
   m_TagString: Untagged
@@ -1202,6 +1202,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breatheSpeed: 1.2
   breatheAmount: 0.005
+--- !u!114 &1541718819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541718816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6660fd926040456581c0ccc0706834e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1625299423
 PrefabInstance:
   m_ObjectHideFlags: 0
