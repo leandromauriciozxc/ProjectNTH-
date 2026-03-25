@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class IdleBreathing : MonoBehaviour
 {
-    [SerializeField]
-    private float breatheSpeed = 1.2f;
-    [SerializeField]
-    private float breatheAmount = 0.005f;
+    [SerializeField] private float breatheSpeed = 1.2f;
+    [SerializeField] private float breatheAmount = 0.005f;
 
     Vector3 startPos;
 

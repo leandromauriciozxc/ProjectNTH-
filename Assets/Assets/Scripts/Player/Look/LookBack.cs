@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class LookBack : MonoBehaviour
 {
-    [SerializeField] InputReader input;
+    
 
     [Header("Settings")]
     [SerializeField] float lookBackAngle = 180f;
     [SerializeField] float cameraLag = 0.12f;
+    [SerializeField] InputReader input;
 
     float currentAngle;
     float targetAngle;

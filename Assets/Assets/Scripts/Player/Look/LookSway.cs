@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class LookSway : MonoBehaviour
 {
-    [SerializeField]
-    private float swayAmount = 0.02f;
-    [SerializeField]
-    private float smoothSpeed = 6f;
+    [SerializeField] private float swayAmount = 0.02f;
+    [SerializeField] private float smoothSpeed = 6f;
 
     Vector3 initialPos;
     Vector3 currentOffset;

@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
-    [SerializeField]
-    private InputReader input;
-    [SerializeField]
-    private Transform cameraPivot;
+    [SerializeField] private InputReader input;
+    [SerializeField] private Transform cameraPivot;
     [SerializeField] private SO_SensivitySettings SensivitySettings;
     private float xRotation;
     public float MouseX { get; private set; }

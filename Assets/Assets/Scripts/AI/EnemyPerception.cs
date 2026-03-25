@@ -70,7 +70,7 @@ public class EnemyPerception : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-        Transform debugPlayer = player;
+        var debugPlayer = player;
 
 #if UNITY_EDITOR
         if (!Application.isPlaying)

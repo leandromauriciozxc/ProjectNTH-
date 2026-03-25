@@ -28,7 +28,6 @@ public class InputReader : MonoBehaviour
     {
         Move = input.Player.Move.ReadValue<Vector2>();
         Look = input.Player.Look.ReadValue<Vector2>();
-        //Run = input.Player.Run.IsPressed();
         Run = input.Player.Run.ReadValue<float>() > 0;
         Lookback = input.Player.LookBack.ReadValue<float>() > 0;
     }
