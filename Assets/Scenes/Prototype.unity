@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 233571526}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -974,9 +974,10 @@ MonoBehaviour:
   eyePoint: {fileID: 1052232413}
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 0
-  viewDistance: 10
+    m_Bits: 128
+  viewDistance: 20
   loseSightDelay: 1
+  detectionMode: 0
 --- !u!114 &1152657104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,9 +1166,9 @@ GameObject:
   - component: {fileID: 1541718817}
   - component: {fileID: 1541718818}
   - component: {fileID: 1541718819}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BreathingPivot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1328,9 +1329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4107f0354f6410f99690b7f7380e3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 233571525}
   lookBackAngle: 180
   cameraLag: 0.12
+  input: {fileID: 233571525}
 --- !u!1 &1817880009
 GameObject:
   m_ObjectHideFlags: 0

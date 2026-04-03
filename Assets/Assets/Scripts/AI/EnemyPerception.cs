@@ -2,18 +2,24 @@ using UnityEngine;
 
 public class EnemyPerception : MonoBehaviour
 {
+    public enum DetectionMode
+    {
+        AreaOnly,
+        LineOfSight
+    }
+
     [Header("References")]
     [SerializeField] Transform eyePoint;
     [SerializeField] LayerMask obstructionMask;
 
     [Header("Vision Settings")]
     [SerializeField] float viewDistance = 10f;
-    //[SerializeField] float viewAngle = 90f;
 
     [SerializeField] float loseSightDelay = 2f;
+    [SerializeField] private DetectionMode detectionMode;
     private EnemyController controller;
     private Transform player;
-
+    
     float lastSeenTime;
     float timer;
     float interval = 0.2f;
@@ -42,10 +48,42 @@ public class EnemyPerception : MonoBehaviour
 
     void CheckVision()
     {
-        float distance = Vector3.Distance(eyePoint.position, player.position);
+        Vector3 dirToPlayer = player.position - eyePoint.position;
+        float distance = dirToPlayer.magnitude;
 
-        bool currentlySeeing = distance <= viewDistance;
+        bool currentlySeeing = false;
 
+        if (distance <= viewDistance)
+        {
+            switch (detectionMode)
+            {
+                case DetectionMode.AreaOnly:
+                    currentlySeeing = true;
+                    break;
+
+                case DetectionMode.LineOfSight:
+                    Vector3 origin = eyePoint.position + eyePoint.forward * 0.1f;
+                    Debug.Log(" out side raycast");
+                    if (Physics.Raycast(
+                        origin,
+                        dirToPlayer.normalized,
+                        out RaycastHit hit,
+                        viewDistance,
+                        obstructionMask
+                    ))
+                    {
+                        Debug.Log("Hit out side if statement: " + hit.transform.name);
+                        if (hit.transform.root.CompareTag("Player"))
+                        {
+                            Debug.Log("Hit: " + hit.transform.name);
+                            currentlySeeing = true;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        // 🔥 KEEP YOUR MEMORY SYSTEM
         if (currentlySeeing)
         {
             lastSeenTime = Time.time;
@@ -53,9 +91,9 @@ public class EnemyPerception : MonoBehaviour
         }
         else
         {
-            // MEMORY
             CanSeePlayer = (Time.time - lastSeenTime) < loseSightDelay;
         }
+
         Debug.Log("CanSeePlayer: " + CanSeePlayer);
     }
 
