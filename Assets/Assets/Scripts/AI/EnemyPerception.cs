@@ -14,9 +14,12 @@ public class EnemyPerception : MonoBehaviour
 
     [Header("Vision Settings")]
     [SerializeField] float viewDistance = 10f;
+    [SerializeField] float lightCheckRadius = 5f;
+    [SerializeField] LayerMask lightMask;
 
     [SerializeField] float loseSightDelay = 2f;
     [SerializeField] private DetectionMode detectionMode;
+
     private EnemyController controller;
     private Transform player;
     
@@ -26,9 +29,11 @@ public class EnemyPerception : MonoBehaviour
 
     public bool CanSeePlayer { get; private set; }
     public bool IsPlayerLookingAtEnemy { get; private set; }
+    public bool IsExposedToLight { get; private set; }
     private void Start()
     {
-        player = controller.PlayerCameraTransform;
+        
+        Debug.Log(player == null ? "PLAYER IS NULL ❌" : "PLAYER OK ✔");
     }
     private void Awake()
     {
@@ -36,6 +41,8 @@ public class EnemyPerception : MonoBehaviour
     }
     void Update()
     {
+        if (player == null)
+            return;
         timer += Time.deltaTime;
 
         if (timer >= interval)
@@ -43,11 +50,23 @@ public class EnemyPerception : MonoBehaviour
             timer = 0f;
             CheckVision();
             CheckIfPlayerLooking();
+            CheckLight();
         }
     }
+    void CheckLight()
+    {
+        Collider[] hits = Physics.OverlapSphere(
+            eyePoint.position,
+            lightCheckRadius,
+            lightMask
+        );
 
+        IsExposedToLight = hits.Length > 0;
+    }
     void CheckVision()
     {
+        if (player == null || eyePoint == null)
+            return;
         Vector3 dirToPlayer = player.position - eyePoint.position;
         float distance = dirToPlayer.magnitude;
 
@@ -105,6 +124,10 @@ public class EnemyPerception : MonoBehaviour
 
         // tweak threshold
         IsPlayerLookingAtEnemy = dot > 0.75f;
+    }
+    public void Initialize(Transform playerTransform)
+    {
+        player = playerTransform;
     }
     void OnDrawGizmos()
     {

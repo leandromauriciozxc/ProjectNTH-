@@ -10,17 +10,34 @@ public class EnemyController : MonoBehaviour
     public EnemyPerception Perception { get; private set; }
     public EnemyPatrol Patrol { get; private set; }
 
+    
     void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
         StateMachine = GetComponent<EnemyStateMachine>();
         Perception = GetComponent<EnemyPerception>();
         Patrol = GetComponent<EnemyPatrol>();
-        PlayerCameraTransform = PlayerCamera.Instance.transform;
+       
     }
 
     void Start()
     {
+        if (PlayerCamera.Instance != null)
+        {
+            PlayerCameraTransform = PlayerCamera.Instance.Transform;
+            Perception.Initialize(PlayerCameraTransform);
+        }
         StateMachine.Initialize(new EnemyPatrolState(this, StateMachine));
     }
+    public enum MovementMode
+    {
+        Normal,
+        LookBased,
+        LightBased
+    }
+
+    public MovementMode movementMode;
 }
+
+
+

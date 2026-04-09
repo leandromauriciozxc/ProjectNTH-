@@ -4,6 +4,7 @@ public class EnemyChaseState : EnemyBaseState
 {
     public EnemyChaseState(EnemyController enemy, EnemyStateMachine stateMachine)
         : base(enemy, stateMachine) { }
+    bool canMove = false;
 
     public override void Enter()
     {
@@ -24,14 +25,21 @@ public class EnemyChaseState : EnemyBaseState
         // Always follow player
         enemy.Agent.SetDestination(enemy.PlayerCameraTransform.position);
 
-        // 🔥 YOUR CORE MECHANIC
-        if (enemy.Perception.IsPlayerLookingAtEnemy)
+        //YOUR CORE MECHANIC
+        switch (enemy.movementMode)
         {
-            enemy.Agent.isStopped = false;
+            case EnemyController.MovementMode.Normal:
+                canMove = true;
+                break;
+
+            case EnemyController.MovementMode.LookBased:
+                canMove = enemy.Perception.IsPlayerLookingAtEnemy;
+                break;
+
+            case EnemyController.MovementMode.LightBased:
+                canMove = enemy.Perception.IsExposedToLight;
+                break;
         }
-        else
-        {
-            enemy.Agent.isStopped = true;
-        }
+        enemy.Agent.isStopped = !canMove;
     }
 }
