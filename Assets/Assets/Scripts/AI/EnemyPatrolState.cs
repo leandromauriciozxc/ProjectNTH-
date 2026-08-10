@@ -2,32 +2,48 @@ using UnityEngine;
 
 public class EnemyPatrolState : EnemyBaseState
 {
-    Transform targetPoint;
+    private Transform targetPoint;
 
-    float waitTimer;
-    float waitDuration = 2f; // tweak in inspector later if you want
-    bool waiting;
+    private float waitTimer;
+    private float waitDuration = 2f;
+    private bool waiting;
 
-    public EnemyPatrolState(EnemyController enemy, EnemyStateMachine stateMachine)
-        : base(enemy, stateMachine) { }
+    public EnemyPatrolState(
+        EnemyController enemy,
+        EnemyStateMachine stateMachine)
+        : base(enemy, stateMachine)
+    {
+    }
 
     public override void Enter()
     {
-        SetNextDestination();
         waiting = false;
+        waitTimer = 0f;
+
+        enemy.Agent.isStopped = false;
+
+        SetNextDestination();
     }
 
     public override void Update()
     {
-        Debug.Log("Patrol Update Running");
-        // 🔥 Transition to Chase
+        // =========================================
+        // PLAYER DETECTED
+        // =========================================
+
         if (enemy.Perception.CanSeePlayer)
         {
             stateMachine.ChangeState(
                 new EnemyChaseState(enemy, stateMachine)
             );
+
             return;
         }
+
+
+        // =========================================
+        // WAITING AT PATROL POINT
+        // =========================================
 
         if (waiting)
         {
@@ -35,32 +51,84 @@ public class EnemyPatrolState : EnemyBaseState
 
             if (waitTimer >= waitDuration)
             {
-                SetNextDestination();
+                Debug.Log("WAIT FINISHED - GETTING NEXT POINT");
+
                 waiting = false;
+                waitTimer = 0f;
+
+                SetNextDestination();
             }
 
             return;
         }
 
-        // Reached point
-        if (!enemy.Agent.pathPending && enemy.Agent.remainingDistance < 0.5f)
+
+        // =========================================
+        // REACHED PATROL POINT
+        // =========================================
+
+        if (!waiting && targetPoint != null && !enemy.Agent.pathPending &&
+    (
+        !enemy.Agent.hasPath ||
+        enemy.Agent.remainingDistance <= 0.7f
+    ))
         {
+            Debug.Log(
+                $"ARRIVED AT: {targetPoint.name} | " +
+                $"Distance: {enemy.Agent.remainingDistance}"
+            );
+
             waiting = true;
             waitTimer = 0f;
 
             enemy.Agent.isStopped = true;
         }
-        Debug.Log("CanSeePlayer: " + enemy.Perception.CanSeePlayer);
     }
 
-    void SetNextDestination()
+
+
+
+
+    private void SetNextDestination()
     {
+        if (enemy.Patrol == null)
+        {
+            Debug.LogError("EnemyPatrol is NULL.");
+            return;
+        }
+
         targetPoint = enemy.Patrol.GetNextPoint();
 
-        if (targetPoint != null)
+        if (targetPoint == null)
         {
-            enemy.Agent.isStopped = false;
-            enemy.Agent.SetDestination(targetPoint.position);
+            Debug.LogError("Patrol point is NULL.");
+            return;
         }
+
+        enemy.Agent.isStopped = false;
+
+        bool accepted =
+            enemy.Agent.SetDestination(targetPoint.position);
+
+        Debug.Log(
+            $"PATROL DESTINATION: {targetPoint.name}\n" +
+            $"Position: {targetPoint.position}\n" +
+            $"On NavMesh: {enemy.Agent.isOnNavMesh}\n" +
+            $"Stopped: {enemy.Agent.isStopped}\n" +
+            $"Accepted: {accepted}\n" +
+            $"Path Pending: {enemy.Agent.pathPending}\n" +
+            $"Has Path: {enemy.Agent.hasPath}\n" +
+            $"Path Status: {enemy.Agent.pathStatus}"
+        );
+    }
+
+
+    public override void Exit()
+    {
+        enemy.Agent.isStopped = true;
+        enemy.Agent.ResetPath();
+
+        waiting = false;
+        waitTimer = 0f;
     }
 }

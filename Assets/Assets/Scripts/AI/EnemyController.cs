@@ -10,7 +10,10 @@ public class EnemyController : MonoBehaviour
     public EnemyPerception Perception { get; private set; }
     public EnemyPatrol Patrol { get; private set; }
 
-    
+    [Header("AI Settings")]
+    [SerializeField] private bool isPatrolAllowed = true;
+
+    public bool IsPatrolAllowed => isPatrolAllowed;
     void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
@@ -19,7 +22,21 @@ public class EnemyController : MonoBehaviour
         Patrol = GetComponent<EnemyPatrol>();
        
     }
-
+    public void ReturnFromChase()
+    {
+        if (IsPatrolAllowed)
+        {
+            StateMachine.ChangeState(
+                new EnemyPatrolState(this, StateMachine)
+            );
+        }
+        else
+        {
+            StateMachine.ChangeState(
+                new EnemyIdleState(this, StateMachine)
+            );
+        }
+    }
     void Start()
     {
         if (PlayerCamera.Instance != null)
@@ -27,7 +44,18 @@ public class EnemyController : MonoBehaviour
             PlayerCameraTransform = PlayerCamera.Instance.Transform;
             Perception.Initialize(PlayerCameraTransform);
         }
-        StateMachine.Initialize(new EnemyPatrolState(this, StateMachine));
+        if (IsPatrolAllowed)
+        {
+            StateMachine.Initialize(
+                new EnemyPatrolState(this, StateMachine)
+            );
+        }
+        else
+        {
+            StateMachine.Initialize(
+                new EnemyIdleState(this, StateMachine)
+            );
+        }
     }
     public enum MovementMode
     {
