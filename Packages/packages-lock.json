@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.samdriver.driven-decals": {
+      "version": "https://github.com/Anatta336/driven-decals.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "12.0.0"
+      },
+      "hash": "4a70ad783bd5c95d9d43ed9c90654251766db17c"
+    },
     "com.unity.ai.navigation": {
       "version": "1.1.7",
       "depth": 0,
