@@ -2,44 +2,86 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyBaseState
 {
-    public EnemyChaseState(EnemyController enemy, EnemyStateMachine stateMachine)
-        : base(enemy, stateMachine) { }
-    bool canMove = false;
+    public EnemyChaseState(
+        EnemyController enemy,
+        EnemyStateMachine stateMachine)
+        : base(enemy, stateMachine)
+    {
+    }
+
+    private bool canMove;
 
     public override void Enter()
     {
+        canMove = false;
+
         enemy.Agent.isStopped = false;
     }
 
     public override void Update()
     {
-        // Return to patrol ONLY after memory expires
+        // =========================================
+        // 1. PLAYER DETECTION
+        // =========================================
+
         if (!enemy.Perception.CanSeePlayer)
         {
-            stateMachine.ChangeState(
-                new EnemyPatrolState(enemy, stateMachine)
-            );
+            enemy.ReturnFromChase();
             return;
         }
 
-        // Always follow player
-        enemy.Agent.SetDestination(enemy.PlayerCameraTransform.position);
 
-        //YOUR CORE MECHANIC
+        // =========================================
+        // 2. MOVEMENT PERMISSION
+        // =========================================
+
         switch (enemy.movementMode)
         {
             case EnemyController.MovementMode.Normal:
+
                 canMove = true;
+
                 break;
+
 
             case EnemyController.MovementMode.LookBased:
-                canMove = enemy.Perception.IsPlayerLookingAtEnemy;
+
+                canMove =
+                    enemy.Perception.IsPlayerLookingAtEnemy;
+
                 break;
 
+
             case EnemyController.MovementMode.LightBased:
-                canMove = enemy.Perception.IsExposedToLight;
+
+                canMove =
+                    enemy.Perception.IsExposedToLight;
+
                 break;
         }
-        enemy.Agent.isStopped = !canMove;
+
+
+        // =========================================
+        // 3. MOVE OR FREEZE
+        // =========================================
+
+        if (canMove)
+        {
+            enemy.Agent.isStopped = false;
+
+            enemy.Agent.SetDestination(
+                enemy.PlayerCameraTransform.position
+            );
+        }
+        else
+        {
+            enemy.Agent.isStopped = true;
+        }
+    }
+
+    public override void Exit()
+    {
+        enemy.Agent.isStopped = true;
+        enemy.Agent.ResetPath();
     }
 }

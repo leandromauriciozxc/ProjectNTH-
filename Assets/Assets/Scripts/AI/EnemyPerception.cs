@@ -39,15 +39,17 @@ public class EnemyPerception : MonoBehaviour
     {
         controller = GetComponent<EnemyController>();
     }
-    void Update()
+    private void Update()
     {
         if (player == null)
             return;
+
         timer += Time.deltaTime;
 
         if (timer >= interval)
         {
             timer = 0f;
+
             CheckVision();
             CheckIfPlayerLooking();
             CheckLight();
@@ -63,46 +65,69 @@ public class EnemyPerception : MonoBehaviour
 
         IsExposedToLight = hits.Length > 0;
     }
-    void CheckVision()
+    private void CheckVision()
     {
         if (player == null || eyePoint == null)
             return;
-        Vector3 dirToPlayer = player.position - eyePoint.position;
-        float distance = dirToPlayer.magnitude;
+
+        Vector3 directionToPlayer =
+            player.position - eyePoint.position;
+
+        float distanceToPlayer =
+            directionToPlayer.magnitude;
 
         bool currentlySeeing = false;
 
-        if (distance <= viewDistance)
+
+        // =========================================
+        // DISTANCE CHECK
+        // =========================================
+
+        if (distanceToPlayer <= viewDistance)
         {
             switch (detectionMode)
             {
+                // ---------------------------------
+                // AREA DETECTION
+                // ---------------------------------
+
                 case DetectionMode.AreaOnly:
+
                     currentlySeeing = true;
+
                     break;
 
+
+                // ---------------------------------
+                // LINE OF SIGHT
+                // ---------------------------------
+
                 case DetectionMode.LineOfSight:
-                    Vector3 origin = eyePoint.position + eyePoint.forward * 0.1f;
-                    Debug.Log(" out side raycast");
+
+                    Vector3 origin =
+                        eyePoint.position +
+                        eyePoint.forward * 0.1f;
+
                     if (Physics.Raycast(
                         origin,
-                        dirToPlayer.normalized,
+                        directionToPlayer.normalized,
                         out RaycastHit hit,
-                        viewDistance,
-                        obstructionMask
-                    ))
+                        distanceToPlayer,
+                        obstructionMask))
                     {
-                        Debug.Log("Hit out side if statement: " + hit.transform.name);
-                        if (hit.transform.root.CompareTag("Player"))
-                        {
-                            Debug.Log("Hit: " + hit.transform.name);
-                            currentlySeeing = true;
-                        }
+                        currentlySeeing =
+                            hit.transform.root.CompareTag("Player");
                     }
+
                     break;
             }
         }
 
-        // 🔥 KEEP YOUR MEMORY SYSTEM
+
+        // =========================================
+        // PLAYER MEMORY
+        // =========================================
+
         if (currentlySeeing)
         {
             lastSeenTime = Time.time;
@@ -110,10 +135,9 @@ public class EnemyPerception : MonoBehaviour
         }
         else
         {
-            CanSeePlayer = (Time.time - lastSeenTime) < loseSightDelay;
+            CanSeePlayer =
+                Time.time - lastSeenTime < loseSightDelay;
         }
-
-        Debug.Log("CanSeePlayer: " + CanSeePlayer);
     }
 
     void CheckIfPlayerLooking()

@@ -1,0 +1,399 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        1.0536199808120728,
+        1.5399399995803833,
+        1.304129958152771
+      ],
+      "min": [
+        -1.0402799844741821,
+        -0.4597199857234955,
+        -1.9801000356674194
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3912,
+      "componentType": 5126,
+      "count": 326,
+      "max": [
+        1.0,
+        0.7259199023246765,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9916005730628967,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 1620,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 7824,
+      "componentType": 5126,
+      "count": 1350,
+      "max": [
+        1.0536199808120728,
+        1.5399399995803833,
+        1.3256499767303467
+      ],
+      "min": [
+        -1.0402799844741821,
+        -0.9725000262260437,
+        -2.2794599533081055
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 24024,
+      "componentType": 5126,
+      "count": 1350,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 6480,
+      "componentType": 5125,
+      "count": 7344,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 40224,
+      "componentType": 5126,
+      "count": 268,
+      "max": [
+        0.762470006942749,
+        1.1587200164794922,
+        1.496359944343567
+      ],
+      "min": [
+        -0.7483000159263611,
+        -0.35203999280929565,
+        -1.924280047416687
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 43440,
+      "componentType": 5126,
+      "count": 268,
+      "max": [
+        0.9989220499992371,
+        0.9989220499992371,
+        1.0
+      ],
+      "min": [
+        -0.9989220499992371,
+        -0.9989220499992371,
+        -0.9829440116882324
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 35856,
+      "componentType": 5125,
+      "count": 1542,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 46656,
+      "componentType": 5126,
+      "count": 368,
+      "max": [
+        0.5496000051498413,
+        -0.26664999127388,
+        1.0897400379180908
+      ],
+      "min": [
+        -0.5761500000953674,
+        -0.5127000212669373,
+        0.6827200055122375
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 51072,
+      "componentType": 5126,
+      "count": 368,
+      "max": [
+        0.7763842940330505,
+        0.9870126843452454,
+        0.7763842940330505
+      ],
+      "min": [
+        -0.7763842940330505,
+        -0.9045385122299194,
+        -0.7763842940330505
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 42024,
+      "componentType": 5125,
+      "count": 1986,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "amrmosho (https://sketchfab.com/amrmosho)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/coffee-maker-low-poly-ea91bdbd359843df936ce40f63c1e40e",
+      "title": "coffee maker Low Poly"
+    },
+    "generator": "Sketchfab-12.67.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 49968,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 55488,
+      "byteOffset": 49968,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 105456,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "body",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.5,
+          0.5,
+          0.5,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.20000000298023224
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "blackbody",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "metallicFactor": 0.24,
+        "roughnessFactor": 0.2
+      }
+    },
+    {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "name": "glass",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.4039523291935569,
+          0.644942088621999,
+          1.0,
+          0.15
+        ],
+        "metallicFactor": 0.84,
+        "roughnessFactor": 0.20000000298023224
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "buttons",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.085,
+          0.085,
+          0.085,
+          1.0
+        ],
+        "metallicFactor": 0.59,
+        "roughnessFactor": 0.0
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Cube_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Cube_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Cube_2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 7,
+            "POSITION": 6
+          },
+          "indices": 8,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Cube_3",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 10,
+            "POSITION": 9
+          },
+          "indices": 11,
+          "material": 3,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "Root"
+    },
+    {
+      "children": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "matrix": [
+        0.19300000000000003,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19283000000000003,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19283000000000003,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Cube"
+    },
+    {
+      "mesh": 0,
+      "name": "Cube_0"
+    },
+    {
+      "mesh": 1,
+      "name": "Cube_1"
+    },
+    {
+      "mesh": 2,
+      "name": "Cube_2"
+    },
+    {
+      "mesh": 3,
+      "name": "Cube_3"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

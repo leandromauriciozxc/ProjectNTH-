@@ -2,33 +2,54 @@ using UnityEngine;
 
 public class EnemyStateMachine : MonoBehaviour
 {
-    [SerializeField] float minStateDuration = 1f;
-    float stateEnterTime;
-    private EnemyBaseState currentState;
+    [SerializeField] private float minStateDuration = 0.5f;
 
+    private float stateEnterTime;
+    private EnemyBaseState currentState;
 
     public void Initialize(EnemyBaseState startingState)
     {
+        if (startingState == null)
+        {
+            Debug.LogError("Starting state is null.");
+            return;
+        }
+
         currentState = startingState;
+        stateEnterTime = Time.time;
+
         currentState.Enter();
     }
 
-    void Update()
+    private void Update()
     {
         currentState?.Update();
     }
 
-    public void ChangeState(EnemyBaseState newState)
+    public void ChangeState(EnemyBaseState newState, bool force = false)
     {
-        // ❗ prevent rapid switching
-        if (Time.time - stateEnterTime < minStateDuration)
+        if (newState == null)
             return;
+
+        // Prevent rapid state switching,
+        // unless this transition is important enough to force.
+        if (!force &&
+            Time.time - stateEnterTime < minStateDuration)
+        {
+            return;
+        }
+
+        Debug.Log(
+            $"STATE CHANGE: " +
+            $"{currentState?.GetType().Name} → " +
+            $"{newState.GetType().Name}"
+        );
 
         currentState?.Exit();
 
         currentState = newState;
-        currentState.Enter();
-
         stateEnterTime = Time.time;
+
+        currentState.Enter();
     }
 }
