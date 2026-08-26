@@ -22,7 +22,7 @@ public class EnemyPerception : MonoBehaviour
 
     private EnemyController controller;
     private Transform player;
-    
+    private bool hasSeenPlayer;
     float lastSeenTime;
     float timer;
     float interval = 0.2f;
@@ -78,29 +78,16 @@ public class EnemyPerception : MonoBehaviour
 
         bool currentlySeeing = false;
 
-
-        // =========================================
-        // DISTANCE CHECK
-        // =========================================
-
         if (distanceToPlayer <= viewDistance)
         {
             switch (detectionMode)
             {
-                // ---------------------------------
-                // AREA DETECTION
-                // ---------------------------------
-
                 case DetectionMode.AreaOnly:
 
                     currentlySeeing = true;
 
                     break;
 
-
-                // ---------------------------------
-                // LINE OF SIGHT
-                // ---------------------------------
 
                 case DetectionMode.LineOfSight:
 
@@ -122,21 +109,24 @@ public class EnemyPerception : MonoBehaviour
                     break;
             }
         }
-
-
-        // =========================================
-        // PLAYER MEMORY
-        // =========================================
-
         if (currentlySeeing)
         {
+            hasSeenPlayer = true;
             lastSeenTime = Time.time;
+
             CanSeePlayer = true;
         }
         else
         {
-            CanSeePlayer =
-                Time.time - lastSeenTime < loseSightDelay;
+            if (hasSeenPlayer)
+            {
+                CanSeePlayer =
+                    Time.time - lastSeenTime < loseSightDelay;
+            }
+            else
+            {
+                CanSeePlayer = false;
+            }
         }
     }
 
