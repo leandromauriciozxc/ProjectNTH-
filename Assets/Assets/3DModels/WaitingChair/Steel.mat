@@ -7,14 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hole
+  m_Name: Steel
   m_Shader: {fileID: -6465566751694194690, guid: b9d29dfa1474148e792ac720cbd45122,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _TEXTURE_TRANSFORM
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _UV_CHANNEL_SELECT
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
@@ -29,21 +30,21 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - baseColorTexture:
-        m_Texture: {fileID: 2800000, guid: 5b6764ab2a15cc34b8264d865ec19f2c, type: 3}
-        m_Scale: {x: 14, y: 14}
-        m_Offset: {x: 0, y: -13}
+        m_Texture: {fileID: 2800000, guid: 415dd3d7e4eb64a4cb709ad4ccca0a32, type: 3}
+        m_Scale: {x: 15, y: 15}
+        m_Offset: {x: 0, y: -14}
     - emissiveTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - metallicRoughnessTexture:
-        m_Texture: {fileID: 2800000, guid: 096bb568672295845aba3d1343b0db45, type: 3}
-        m_Scale: {x: 14, y: 14}
-        m_Offset: {x: 0, y: -13}
+        m_Texture: {fileID: 2800000, guid: 3cf8a73b134563942945c0a9e7307f71, type: 3}
+        m_Scale: {x: 15, y: 15}
+        m_Offset: {x: 0, y: -14}
     - normalTexture:
-        m_Texture: {fileID: 2800000, guid: e98ce1ba92067714c94f2961a0f6033f, type: 3}
-        m_Scale: {x: 14, y: 14}
-        m_Offset: {x: 0, y: -13}
+        m_Texture: {fileID: 2800000, guid: f65fb985e0f89844b9594214aa7af0f0, type: 3}
+        m_Scale: {x: 15, y: 15}
+        m_Offset: {x: 0, y: -14}
     - occlusionTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -97,13 +98,13 @@ Material:
     - baseColorTexture_texCoord: 0
     - emissiveExposureWeight: 0
     - emissiveTexture_texCoord: 0
-    - metallicFactor: 0
-    - metallicRoughnessTexture_texCoord: 0
+    - metallicFactor: 1
+    - metallicRoughnessTexture_texCoord: 1
     - normalTexture_scale: 1
     - normalTexture_texCoord: 0
     - occlusionTexture_strength: 1
     - occlusionTexture_texCoord: 0
-    - roughnessFactor: 0
+    - roughnessFactor: 0.485
     - transmissionFactor: 0
     m_Colors:
     - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
@@ -114,7 +115,7 @@ Material:
     - normalTexture_Rotation: {r: 0, g: 0, b: 0, a: 0}
     - occlusionTexture_Rotation: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &352032006076841914
+--- !u!114 &428207570549764403
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 7
---- !u!114 &1375905142940817947
+--- !u!114 &9091335032127982791
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
