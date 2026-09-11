@@ -157,7 +157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5570034281403705599}
-  - component: {fileID: 8351646833312237680}
+  - component: {fileID: 7691803206849800372}
   m_Layer: 9
   m_Name: DoorRightParent
   m_TagString: Untagged
@@ -184,20 +184,27 @@ Transform:
   - {fileID: 160628880666337610}
   m_Father: {fileID: 5387968481911160073}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8351646833312237680
-MonoBehaviour:
+--- !u!95 &7691803206849800372
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172291419752012486}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fbe476d842ae734e85aead5a9791c52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiAnchor: {fileID: 5772770931094793634}
-  promptText: '[E] Open'
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 88d3cd18c82428d4ea09e7ce5ff1cac0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &202301196351431126
 GameObject:
   m_ObjectHideFlags: 0
@@ -4680,6 +4687,7 @@ GameObject:
   - component: {fileID: 5926238017767932780}
   - component: {fileID: 2913438408230807431}
   - component: {fileID: 8529476549851469439}
+  - component: {fileID: 1012381591999589010}
   m_Layer: 9
   m_Name: FrontCollider
   m_TagString: Untagged
@@ -4716,6 +4724,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiAnchor: {fileID: 5772770931094793634}
   promptText: '[E] Open'
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1012381591999589010}
+        m_TargetAssemblyTypeName: DoorInteraction, Assembly-CSharp
+        m_MethodName: ToggleDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!65 &8529476549851469439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4737,6 +4760,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.184063, y: 2.2552788, z: 0.045978535}
   m_Center: {x: -0.043783188, y: 0.10483504, z: 0.030641548}
+--- !u!114 &1012381591999589010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3117507392375871215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8010c5d5191fa48b43846e169bfbb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7691803206849800372}
+  openOutwards: 0
 --- !u!1 &3161167885181094918
 GameObject:
   m_ObjectHideFlags: 0
@@ -5975,6 +6012,7 @@ GameObject:
   - component: {fileID: 614138899701265722}
   - component: {fileID: 6414357233542903580}
   - component: {fileID: 7569178448847404812}
+  - component: {fileID: 7573036830985272498}
   m_Layer: 9
   m_Name: BackCollider
   m_TagString: Untagged
@@ -6011,6 +6049,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiAnchor: {fileID: 6993464478678088429}
   promptText: '[E] Open'
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7573036830985272498}
+        m_TargetAssemblyTypeName: DoorInteraction, Assembly-CSharp
+        m_MethodName: ToggleDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!65 &7569178448847404812
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6032,6 +6085,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.184063, y: 2.2552788, z: 0.046691883}
   m_Center: {x: -0.043783188, y: 0.10483504, z: -0.021274561}
+--- !u!114 &7573036830985272498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3973363440064780798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8010c5d5191fa48b43846e169bfbb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3928971307140837900}
+  openOutwards: 1
 --- !u!1 &3994920119315589987
 GameObject:
   m_ObjectHideFlags: 0
@@ -11719,6 +11786,7 @@ GameObject:
   - component: {fileID: 2446387314842559771}
   - component: {fileID: 1089397655479583592}
   - component: {fileID: 4981532701085462827}
+  - component: {fileID: 1855244026215263599}
   m_Layer: 9
   m_Name: FrontCollider
   m_TagString: Untagged
@@ -11755,6 +11823,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiAnchor: {fileID: 2947644253404209629}
   promptText: '[E] Open'
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1855244026215263599}
+        m_TargetAssemblyTypeName: DoorInteraction, Assembly-CSharp
+        m_MethodName: ToggleDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!65 &4981532701085462827
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11776,6 +11859,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.184063, y: 2.2552788, z: 0.045978535}
   m_Center: {x: -0.043783188, y: 0.10483504, z: 0.030641548}
+--- !u!114 &1855244026215263599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8061956697466498403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8010c5d5191fa48b43846e169bfbb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3928971307140837900}
+  openOutwards: 0
 --- !u!1 &8153174308984872951
 GameObject:
   m_ObjectHideFlags: 0
@@ -13344,6 +13441,7 @@ GameObject:
   - component: {fileID: 3840345505035765019}
   - component: {fileID: 5413441022850435274}
   - component: {fileID: 5984095216739784067}
+  - component: {fileID: 1673591974418286726}
   m_Layer: 9
   m_Name: BackCollider
   m_TagString: Untagged
@@ -13380,6 +13478,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiAnchor: {fileID: 5150851991530809273}
   promptText: '[E] Open'
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1673591974418286726}
+        m_TargetAssemblyTypeName: DoorInteraction, Assembly-CSharp
+        m_MethodName: ToggleDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!65 &5984095216739784067
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13401,6 +13514,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.184063, y: 2.2552788, z: 0.046691883}
   m_Center: {x: -0.043783188, y: 0.10483504, z: -0.021274561}
+--- !u!114 &1673591974418286726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9061135031884886498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8010c5d5191fa48b43846e169bfbb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7691803206849800372}
+  openOutwards: 1
 --- !u!1 &9110565398528317336
 GameObject:
   m_ObjectHideFlags: 0
