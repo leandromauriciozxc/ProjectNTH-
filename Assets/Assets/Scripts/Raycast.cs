@@ -55,6 +55,19 @@ public class Raycast : MonoBehaviour
         // A target makes the prompt follow its anchor.
         // Null hides the prompt when you look away or leave range.
         m_promptUI.SetTarget(target);
+        // Read E using whichever input system is enabled.
+        #if ENABLE_INPUT_SYSTEM
+        bool interactPressed =
+            UnityEngine.InputSystem.Keyboard.current != null &&
+            UnityEngine.InputSystem.Keyboard.current.eKey.wasPressedThisFrame;
+        #else
+        bool interactPressed = Input.GetKeyDown(KeyCode.E);
+        #endif
+
+        if (target != null && interactPressed)
+        {
+            target.Interact();
+        }
     }
 
     private void OnDisable()
