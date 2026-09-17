@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 290221960152045559}
   - component: {fileID: 582528351243004312}
   - component: {fileID: 5462815336830302714}
+  - component: {fileID: 6430130852056920677}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -205,6 +206,27 @@ MonoBehaviour:
   input: {fileID: 582528351243004312}
   cameraPivot: {fileID: 4050076188018638033}
   SensivitySettings: {fileID: 11400000, guid: 0af73e9ae4ea94db6844b25e2f99dbf5, type: 2}
+--- !u!114 &6430130852056920677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385134950222924985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac37eca113f98a4fabd40d155d0a1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_layermask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_startPoint: {fileID: 8783808324501988660}
+  m_raycastLength: 2.5
+  m_targetImage: {fileID: 0}
+  m_openHand: {fileID: 21300000, guid: 996dc91c405b29b45a22b9923ac446c6, type: 3}
+  m_closeHand: {fileID: 21300000, guid: 74614c88073d9474ebcbc3a17b4fdef9, type: 3}
+  m_promptUI: {fileID: 0}
 --- !u!1 &2596764810502183347
 GameObject:
   m_ObjectHideFlags: 0
