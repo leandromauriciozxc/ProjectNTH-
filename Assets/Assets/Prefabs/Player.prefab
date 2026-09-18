@@ -226,7 +226,8 @@ MonoBehaviour:
   m_targetImage: {fileID: 0}
   m_openHand: {fileID: 21300000, guid: 996dc91c405b29b45a22b9923ac446c6, type: 3}
   m_closeHand: {fileID: 21300000, guid: 74614c88073d9474ebcbc3a17b4fdef9, type: 3}
-  m_promptUI: {fileID: 0}
+  m_promptUI: {fileID: 5305343048874205079, guid: 0b18a4651e192b548932e38f85d21642,
+    type: 3}
 --- !u!1 &2596764810502183347
 GameObject:
   m_ObjectHideFlags: 0
