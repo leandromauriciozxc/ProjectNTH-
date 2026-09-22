@@ -18,6 +18,20 @@ The cabin starts open on floor **1**. Enter, look at the new **2** button near t
 
 The cabin and player do not physically move. Player movement and looking are not disabled. This initial controller does not include a doorway obstruction sensor or automatic door closing: select a floor from inside the cabin to depart. Selecting the current floor simply opens its doors. The hallway OPEN button also opens idle doors; it is not a multi-floor external call dispatcher.
 
+## Add OPEN and CLOSE to an existing panel
+
+Keep your existing floor buttons and panel layout. **Do not rerun setup** to update an existing elevator.
+
+1. Select the bottom OPEN button. In **Elevator Floor Button**, set **Action = Open Doors**.
+2. Select the bottom CLOSE button. Set **Action = Close Doors**.
+3. Both buttons need their **Elevator** reference assigned to the cabin's controller, plus **Label** and **Background** references. If you duplicated a working floor button, those should already be assigned; check each button's **Interactable > On Interact ()** targets its own **ElevatorFloorButton.Press()**.
+4. **Floor Index is ignored** for both door actions. Other buttons keep **Action = Select Floor** and their existing floor indices.
+5. Save and test with E. Labels become OPEN/CLOSE in Play Mode; edit the child TMP text too if you want those labels visible before Play Mode.
+
+OPEN opens the doors at the current floor. It can reverse a closing door smoothly; if a floor selection was closing the doors for departure, OPEN cancels that pending trip. Select the destination again when ready. CLOSE closes the doors at the current floor without moving the elevator or firing an arrival event. It can also reverse opening doors. Repeated requests in the same direction do not restart the animation. Both controls are ignored during travel and the brief arrival pause, so the doors cannot open between floors.
+
+Existing hallway OPEN buttons automatically retain their behavior when the old Open Doors Only setting migrates to the new Action field. Fresh elevator setups include OPEN and CLOSE beneath the example floor buttons.
+
 If E does not work, check the player's **Raycast > M Layermask** includes **Interactable**, and that the controls are within the raycast distance (normally 3 metres). The new buttons have solid BoxColliders on the existing Interactable layer; a wall collider in front of them will block interaction. No mouse cursor, GraphicRaycaster or new EventSystem is required.
 
 ## Connect actual destinations
@@ -44,6 +58,9 @@ Assign **Door Clip**, **Travel Loop** and **Arrival Chime** on the controller if
 - Ride up and down; verify numbers, door closure before travel and opening after arrival.
 - Press a floor repeatedly while travelling; only the original trip should complete.
 - Select the current floor; there should be no travel or landing event.
+- Press CLOSE then OPEN while stationary: doors move without changing floors or invoking landing events.
+- Reopen halfway through a departing door closure: the doors should reverse without jumping and the pending trip should cancel. Choose the destination again to depart.
+- Press both door controls during travel: the doors should stay closed and the trip should finish normally.
 - Check both indicators from the cabin and hallway for orientation and clipping.
 - After wiring landing events, confirm the correct landing and its colliders are active in both directions, and the player stays in the cabin.
 - Confirm optional sounds stop on arrival, and after disabling the elevator during a ride. Re-enabling it resets it to its last reached destination and the configured Start Open state.

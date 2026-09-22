@@ -48,6 +48,8 @@ namespace ProjectNTH.Elevators
         public int FloorCount => floors == null ? 0 : floors.Length;
         public bool IsBusy => State != RideState.Idle;
         public int Direction => State == RideState.Travelling ? travelDirection : 0;
+        public bool CanOperateDoors => initialized && isActiveAndEnabled
+            && State != RideState.Travelling && State != RideState.Arriving;
 
         private Vector3 leftClosedPosition;
         private Vector3 rightClosedPosition;
@@ -55,6 +57,7 @@ namespace ProjectNTH.Elevators
         private int travelDirection;
         private float doorOpenness;
         private bool initialized;
+        private Coroutine activeSequence;
 
         private void Awake()
         {
@@ -82,6 +85,7 @@ namespace ProjectNTH.Elevators
         private void OnDisable()
         {
             StopAllCoroutines();
+            activeSequence = null;
             StopTravelSound();
             if (!initialized) return;
             // An interrupted ride returns to the last destination whose arrival event ran.
@@ -112,14 +116,34 @@ namespace ProjectNTH.Elevators
             }
 
             TargetFloorIndex = index;
-            StartCoroutine(Ride());
+            StartSequence(Ride());
             return true;
         }
 
         public void OpenDoors()
         {
-            if (!initialized || !isActiveAndEnabled || IsBusy || doorOpenness >= 1f) return;
-            StartCoroutine(OpenAndIdle());
+            if (!CanOperateDoors || State == RideState.Opening
+                || (State == RideState.Idle && doorOpenness >= 1f)) return;
+            // Reopening during departure cancels that trip before the cabin starts travelling.
+            // The player selects the destination again when ready to leave.
+            TargetFloorIndex = settledFloor;
+            StartSequence(MoveDoorsAndIdle(true));
+        }
+
+        public void CloseDoors()
+        {
+            if (!CanOperateDoors || State == RideState.Closing
+                || (State == RideState.Idle && doorOpenness <= 0f)) return;
+            // Closing by itself never selects a floor or starts travel.
+            TargetFloorIndex = settledFloor;
+            StartSequence(MoveDoorsAndIdle(false));
+        }
+
+        private void StartSequence(IEnumerator sequence)
+        {
+            // Stop the owning coroutine, including its nested door animation, before reversing.
+            if (activeSequence != null) StopCoroutine(activeSequence);
+            activeSequence = StartCoroutine(sequence);
         }
 
         private IEnumerator Ride()
@@ -150,13 +174,13 @@ namespace ProjectNTH.Elevators
             if (!isActiveAndEnabled) yield break;
             PlayEffect(arrivalChime);
             yield return new WaitForSeconds(Mathf.Max(0f, arrivalPause));
-            yield return OpenAndIdle();
+            yield return MoveDoorsAndIdle(true);
         }
 
-        private IEnumerator OpenAndIdle()
+        private IEnumerator MoveDoorsAndIdle(bool open)
         {
-            SetState(RideState.Opening);
-            yield return MoveDoors(1f);
+            SetState(open ? RideState.Opening : RideState.Closing);
+            yield return MoveDoors(open ? 1f : 0f);
             SetState(RideState.Idle);
         }
 

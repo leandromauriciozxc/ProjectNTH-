@@ -77,13 +77,15 @@ namespace ProjectNTH.Elevators.Editor
                 float jambDistance = Mathf.Abs(Vector3.Dot(right.position - left.position, root.right)) * 0.5f + 0.55f;
                 Vector3 jamb = center + root.right * jambDistance + root.up * 0.3f;
                 RectTransform inside = CreateCanvas("Cabin Buttons", controls.transform,
-                    jamb - root.forward * 0.13f, root.rotation, new Vector2(200f, 220f));
-                CreateButton(inside, controller, font, layer, 0, false, new Vector2(0f, 55f));
-                CreateButton(inside, controller, font, layer, 1, false, new Vector2(0f, -55f));
+                    jamb - root.forward * 0.13f, root.rotation, new Vector2(420f, 330f));
+                CreateButton(inside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.SelectFloor, new Vector2(0f, 110f));
+                CreateButton(inside, controller, font, layer, 1, ElevatorFloorButton.ButtonAction.SelectFloor, Vector2.zero);
+                CreateButton(inside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.OpenDoors, new Vector2(-110f, -110f));
+                CreateButton(inside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.CloseDoors, new Vector2(110f, -110f));
                 RectTransform outside = CreateCanvas("Hall Open Button", controls.transform,
                     jamb + root.forward * 0.19f, root.rotation * Quaternion.Euler(0f, 180f, 0f),
                     new Vector2(200f, 90f));
-                CreateButton(outside, controller, font, layer, 0, true, Vector2.zero);
+                CreateButton(outside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.OpenDoors, Vector2.zero);
 
                 settings.Update();
                 SetReference(settings, "effectsSource", CreateAudio("Door and Arrival Audio", controls.transform));
@@ -175,9 +177,11 @@ namespace ProjectNTH.Elevators.Editor
         }
 
         private static void CreateButton(RectTransform parent, ElevatorController controller,
-            TMP_FontAsset font, int layer, int index, bool openOnly, Vector2 position)
+            TMP_FontAsset font, int layer, int index, ElevatorFloorButton.ButtonAction action, Vector2 position)
         {
-            GameObject item = Create(openOnly ? "Open Doors" : "Floor " + (index + 1), parent,
+            bool isFloor = action == ElevatorFloorButton.ButtonAction.SelectFloor;
+            bool opens = action == ElevatorFloorButton.ButtonAction.OpenDoors;
+            GameObject item = Create(isFloor ? "Floor " + (index + 1) : opens ? "Open Doors" : "Close Doors", parent,
                 typeof(RectTransform), typeof(Image), typeof(BoxCollider), typeof(Interactable), typeof(ElevatorFloorButton));
             item.layer = layer;
             var rect = (RectTransform)item.transform;
@@ -190,7 +194,7 @@ namespace ProjectNTH.Elevators.Editor
             collider.size = new Vector3(200f, 90f, 20f);
             collider.center = new Vector3(0f, 0f, -10f);
             TMP_Text label = CreateText("Label", rect, font, Vector2.zero, rect.sizeDelta, 48f,
-                openOnly ? "OPEN" : controller.GetFloorLabel(index));
+                isFloor ? controller.GetFloorLabel(index) : opens ? "OPEN" : "CLOSE");
 
             var button = item.GetComponent<ElevatorFloorButton>();
             var settings = new SerializedObject(button);
@@ -198,11 +202,12 @@ namespace ProjectNTH.Elevators.Editor
             SetReference(settings, "label", label);
             SetReference(settings, "background", background);
             settings.FindProperty("floorIndex").intValue = index;
-            settings.FindProperty("openDoorsOnly").boolValue = openOnly;
+            settings.FindProperty("action").enumValueIndex = (int)action;
             settings.ApplyModifiedProperties();
 
             var interaction = new SerializedObject(item.GetComponent<Interactable>());
-            interaction.FindProperty("promptText").stringValue = openOnly ? "[E] Open elevator" : "[E] Floor " + (index + 1);
+            interaction.FindProperty("promptText").stringValue = isFloor ? "[E] Floor " + (index + 1)
+                : opens ? "[E] Open doors" : "[E] Close doors";
             SerializedProperty calls = interaction.FindProperty("onInteract.m_PersistentCalls.m_Calls");
             calls.arraySize = 1;
             SerializedProperty call = calls.GetArrayElementAtIndex(0);
