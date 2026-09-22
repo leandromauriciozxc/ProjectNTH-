@@ -82,10 +82,11 @@ namespace ProjectNTH.Elevators.Editor
                 CreateButton(inside, controller, font, layer, 1, ElevatorFloorButton.ButtonAction.SelectFloor, Vector2.zero);
                 CreateButton(inside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.OpenDoors, new Vector2(-110f, -110f));
                 CreateButton(inside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.CloseDoors, new Vector2(110f, -110f));
-                RectTransform outside = CreateCanvas("Hall Open Button", controls.transform,
+                RectTransform outside = CreateCanvas("Hall Call Buttons", controls.transform,
                     jamb + root.forward * 0.19f, root.rotation * Quaternion.Euler(0f, 180f, 0f),
-                    new Vector2(200f, 90f));
-                CreateButton(outside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.OpenDoors, Vector2.zero);
+                    new Vector2(200f, 220f));
+                CreateButton(outside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.CallUp, new Vector2(0f, 55f));
+                CreateButton(outside, controller, font, layer, 0, ElevatorFloorButton.ButtonAction.CallDown, new Vector2(0f, -55f));
 
                 settings.Update();
                 SetReference(settings, "effectsSource", CreateAudio("Door and Arrival Audio", controls.transform));
@@ -181,7 +182,10 @@ namespace ProjectNTH.Elevators.Editor
         {
             bool isFloor = action == ElevatorFloorButton.ButtonAction.SelectFloor;
             bool opens = action == ElevatorFloorButton.ButtonAction.OpenDoors;
-            GameObject item = Create(isFloor ? "Floor " + (index + 1) : opens ? "Open Doors" : "Close Doors", parent,
+            bool isCall = action == ElevatorFloorButton.ButtonAction.CallUp || action == ElevatorFloorButton.ButtonAction.CallDown;
+            bool callUp = action == ElevatorFloorButton.ButtonAction.CallUp;
+            GameObject item = Create(isFloor ? "Floor " + (index + 1)
+                : isCall ? (callUp ? "Call Up" : "Call Down") : opens ? "Open Doors" : "Close Doors", parent,
                 typeof(RectTransform), typeof(Image), typeof(BoxCollider), typeof(Interactable), typeof(ElevatorFloorButton));
             item.layer = layer;
             var rect = (RectTransform)item.transform;
@@ -194,7 +198,7 @@ namespace ProjectNTH.Elevators.Editor
             collider.size = new Vector3(200f, 90f, 20f);
             collider.center = new Vector3(0f, 0f, -10f);
             TMP_Text label = CreateText("Label", rect, font, Vector2.zero, rect.sizeDelta, 48f,
-                isFloor ? controller.GetFloorLabel(index) : opens ? "OPEN" : "CLOSE");
+                isFloor ? controller.GetFloorLabel(index) : isCall ? (callUp ? "UP" : "DOWN") : opens ? "OPEN" : "CLOSE");
 
             var button = item.GetComponent<ElevatorFloorButton>();
             var settings = new SerializedObject(button);
@@ -207,6 +211,7 @@ namespace ProjectNTH.Elevators.Editor
 
             var interaction = new SerializedObject(item.GetComponent<Interactable>());
             interaction.FindProperty("promptText").stringValue = isFloor ? "[E] Floor " + (index + 1)
+                : isCall ? (callUp ? "[E] Call elevator - up" : "[E] Call elevator - down")
                 : opens ? "[E] Open doors" : "[E] Close doors";
             SerializedProperty calls = interaction.FindProperty("onInteract.m_PersistentCalls.m_Calls");
             calls.arraySize = 1;
