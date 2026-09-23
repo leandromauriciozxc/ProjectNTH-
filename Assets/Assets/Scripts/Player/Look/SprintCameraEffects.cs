@@ -1,9 +1,10 @@
 using UnityEngine;
+using Cinemachine;
 
 public class SprintCameraEffects : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] Camera playerCamera;
+    [SerializeField] CinemachineVirtualCamera playerCamera;
     [SerializeField] PlayerMovement movement;
     [SerializeField] HeadBob headBob;
     [SerializeField] LookSway lookSway;
@@ -39,8 +40,8 @@ public class SprintCameraEffects : MonoBehaviour
     {
         float targetFOV = movement.IsRunning ? sprintFOV : normalFOV;
 
-        playerCamera.fieldOfView = Mathf.Lerp(
-            playerCamera.fieldOfView,
+        playerCamera.m_Lens.FieldOfView = Mathf.Lerp(
+            playerCamera.m_Lens.FieldOfView,
             targetFOV,
             Time.deltaTime * fovSpeed
         );

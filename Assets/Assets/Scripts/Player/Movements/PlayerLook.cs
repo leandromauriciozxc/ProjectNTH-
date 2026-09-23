@@ -7,9 +7,17 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private SO_SensivitySettings SensivitySettings;
     private float xRotation;
     public float MouseX { get; private set; }
+    private bool canLook = true;
 
+    public void SetCanLook(bool value)
+    {
+        canLook = value;
+    }
     void Update()
     {
+        if (!canLook)
+            return;
+
         Vector2 look = input.Look;
 
         var sensitivity = SensivitySettings.GetSensitivity();
