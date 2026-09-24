@@ -17,7 +17,7 @@ public class TriggerHandler : MonoBehaviour
 
         if (triggerOnce && hasTriggered)
             return;
-
+        Debug.Log("hello???");
         hasTriggered = true;
 
         onTriggered?.Invoke();
