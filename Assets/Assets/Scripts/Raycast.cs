@@ -42,7 +42,7 @@ public class Raycast : MonoBehaviour
             // Finds the component even if the collider is on a child.
             target = hit.collider.GetComponentInParent<Interactable>();
 
-            if (target != null && !target.isActiveAndEnabled)
+            if (target != null && !target.CanInteractFrom(ray.origin))
             {
                 target = null;
             }
