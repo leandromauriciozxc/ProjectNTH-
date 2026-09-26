@@ -1,0 +1,12 @@
+﻿title: FourthSequenceManyakGuard
+---
+Manong Guard: Hello gwapa!
+Inday: uhhhhhhh, hello nong
+Manong Guard: ID mo day wala naman aw! 
+-> ay! sorry nong gadali ko gina b, palusuta lg ko pls!
+    Manong Guard: Pasalamat ka gwapa ka inday, hehehe ok ah!
+-> Labot mo!
+    Manong Guard: Baw! suplada kay inday gwapa ba!
+Inday: Permi yako ni gina harangan kag tulok ya. Sabad!
+<<anim_trigger MaleGuard normal>>
+===

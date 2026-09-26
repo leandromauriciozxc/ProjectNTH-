@@ -276,7 +276,7 @@ namespace ProjectNTH.Elevators
             yield return new WaitForSeconds(Mathf.Max(0f, arrivalPause));
             yield return MoveDoorsAndIdle(true);
         }
-
+        
         private IEnumerator MoveDoorsAndIdle(bool open)
         {
             SetState(open ? RideState.Opening : RideState.Closing);
