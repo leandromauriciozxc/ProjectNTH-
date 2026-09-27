@@ -2498,6 +2498,7 @@ GameObject:
   - component: {fileID: 5109619891247244623}
   - component: {fileID: 1104411295814497414}
   - component: {fileID: 5959849882464555360}
+  - component: {fileID: 7420637663407230392}
   m_Layer: 0
   m_Name: Cube (57)
   m_TagString: Untagged
@@ -2568,7 +2569,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 101
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &5959849882464555360
 BoxCollider:
@@ -2591,6 +2592,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7420637663407230392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793295886854947432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3e14d095b24f8a9b07b2c364801dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrder: 101
 --- !u!1 &1808698358613761797
 GameObject:
   m_ObjectHideFlags: 0
@@ -2667,6 +2681,7 @@ GameObject:
   - component: {fileID: 187749307832738424}
   - component: {fileID: 1899974667316643957}
   - component: {fileID: 7876769928216262327}
+  - component: {fileID: 2312790605959077900}
   m_Layer: 9
   m_Name: Cube (55)
   m_TagString: Untagged
@@ -2737,7 +2752,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 101
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &7876769928216262327
 BoxCollider:
@@ -2760,6 +2775,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2312790605959077900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942476300882744327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3e14d095b24f8a9b07b2c364801dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrder: 101
 --- !u!1 &1952292552181414555
 GameObject:
   m_ObjectHideFlags: 0
@@ -5875,6 +5903,7 @@ GameObject:
   - component: {fileID: 2583263321751170336}
   - component: {fileID: 1587673141639869109}
   - component: {fileID: 1561506982435460843}
+  - component: {fileID: 1967627164228920414}
   m_Layer: 0
   m_Name: Cube (58)
   m_TagString: Untagged
@@ -5945,7 +5974,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 101
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &1561506982435460843
 BoxCollider:
@@ -5968,6 +5997,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1967627164228920414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3907859557267364709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3e14d095b24f8a9b07b2c364801dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrder: 101
 --- !u!1 &3909692403683551617
 GameObject:
   m_ObjectHideFlags: 0
@@ -7619,6 +7661,7 @@ GameObject:
   - component: {fileID: 160628880666337610}
   - component: {fileID: 1833623359158854792}
   - component: {fileID: 4156989609153543435}
+  - component: {fileID: 3280026915664836949}
   m_Layer: 9
   m_Name: Cube (56)
   m_TagString: Untagged
@@ -7689,8 +7732,21 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 101
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3280026915664836949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5129111816232737261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3e14d095b24f8a9b07b2c364801dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrder: 101
 --- !u!1 &5152785264325957118
 GameObject:
   m_ObjectHideFlags: 0

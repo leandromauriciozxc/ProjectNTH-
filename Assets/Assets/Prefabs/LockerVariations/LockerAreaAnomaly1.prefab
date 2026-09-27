@@ -2878,6 +2878,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: pantry
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 58f8cd32b657eee458a82b54917e3a52,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4954,7 +4959,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: af0f534f12b9abe44b08064cf0081264,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5043,7 +5048,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: af0f534f12b9abe44b08064cf0081264,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13032,6 +13037,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pantry (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 58f8cd32b657eee458a82b54917e3a52,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
