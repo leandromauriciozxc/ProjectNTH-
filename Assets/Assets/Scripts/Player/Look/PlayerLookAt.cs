@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class PlayerLookAt : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerLookAt : MonoBehaviour
     [SerializeField] private int dialoguePriority = 20;
 
     private Transform lookTarget;
+    private Transform fixedLookTarget;
     private bool isLooking;
 
     private void Awake()
@@ -26,6 +28,19 @@ public class PlayerLookAt : MonoBehaviour
     {
         if (Instance == this)
             Instance = null;
+
+        if (fixedLookTarget != null)
+        {
+            if (vcamDialogue != null && vcamDialogue.LookAt == fixedLookTarget)
+                vcamDialogue.LookAt = null;
+
+            Destroy(fixedLookTarget.gameObject);
+        }
+    }
+
+    private void OnDisable()
+    {
+        StopLookAt();
     }
 
     private void Update()
@@ -59,17 +74,50 @@ public class PlayerLookAt : MonoBehaviour
 
     public void LookAt(Transform target)
     {
+        BeginLookAt(target, false);
+    }
+
+    public void LookAtFixed(Transform target)
+    {
+        BeginLookAt(target, true);
+    }
+
+    private void BeginLookAt(Transform target, bool holdInitialFocus)
+    {
         if (target == null)
         {
-            Debug.LogWarning("PlayerLookAt received a null target.");
+            Debug.LogWarning("PlayerLookAt received a null target.", this);
             return;
         }
 
-        lookTarget = target;
+        if (vcamMain == null || vcamDialogue == null)
+        {
+            Debug.LogWarning("PlayerLookAt needs both the main and dialogue cameras assigned.", this);
+            return;
+        }
+
+        if (holdInitialFocus)
+        {
+            if (fixedLookTarget == null)
+            {
+                var focusObject = new GameObject("Dialogue Focus (Runtime)");
+                // Keep it outside animated/player hierarchies, but in the player's scene.
+                SceneManager.MoveGameObjectToScene(focusObject, gameObject.scene);
+                fixedLookTarget = focusObject.transform;
+            }
+
+            fixedLookTarget.SetPositionAndRotation(target.position, target.rotation);
+            lookTarget = fixedLookTarget;
+        }
+        else
+        {
+            lookTarget = target;
+        }
+
         isLooking = true;
 
-        // Give the dialogue camera the target.
-        vcamDialogue.LookAt = target;
+        // Camera aim and player turning must use the same stable focus.
+        vcamDialogue.LookAt = lookTarget;
 
         // Activate dialogue camera.
         vcamMain.Priority = mainPriority;
@@ -81,12 +129,14 @@ public class PlayerLookAt : MonoBehaviour
         isLooking = false;
 
         // Return to normal gameplay camera.
-        vcamDialogue.Priority = 0;
-        vcamMain.Priority = mainPriority;
+        if (vcamDialogue != null)
+            vcamDialogue.Priority = 0;
+        if (vcamMain != null)
+            vcamMain.Priority = mainPriority;
 
         lookTarget = null;
 
-        // Keep LookAt assigned during the blend back.
-        // You can clear it later if you want.
+        // Keep the stable focus alive during the blend back. Reuse it next time
+        // and destroy it with this component, rather than guessing a blend delay.
     }
 }

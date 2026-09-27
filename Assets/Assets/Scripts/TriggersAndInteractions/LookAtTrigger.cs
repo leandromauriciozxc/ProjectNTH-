@@ -5,6 +5,9 @@ public class LookAtTrigger : MonoBehaviour
     [Header("Target")]
     [SerializeField] private Transform target;
 
+    [Tooltip("Hold the target's starting position throughout the conversation so character animation cannot pull the camera away. Disable to follow a moving target.")]
+    [SerializeField] private bool holdInitialFocus = true;
+
     public void LookAtTarget()
     {
         if (target == null)
@@ -25,7 +28,10 @@ public class LookAtTrigger : MonoBehaviour
             return;
         }
 
-        PlayerLookAt.Instance.LookAt(target);
+        if (holdInitialFocus)
+            PlayerLookAt.Instance.LookAtFixed(target);
+        else
+            PlayerLookAt.Instance.LookAt(target);
     }
 
     public void StopLookAt()
