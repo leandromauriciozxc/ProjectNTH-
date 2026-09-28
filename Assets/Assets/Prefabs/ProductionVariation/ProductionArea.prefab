@@ -11481,7 +11481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1997977233904536543
 Transform:
   m_ObjectHideFlags: 0
@@ -41279,6 +41279,7 @@ GameObject:
   - component: {fileID: 3444609786292054764}
   - component: {fileID: 4547905261607440966}
   - component: {fileID: 1477419985110471440}
+  - component: {fileID: 6760257123788689552}
   m_Layer: 0
   m_Name: Plane (2)
   m_TagString: Untagged
@@ -41373,6 +41374,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &6760257123788689552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758977693313956687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d770016719b456b44bb5a16b8d476f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: f400a841531c48a4d982f01f44d18906, type: 2}
+  surfaceName: Tiles
 --- !u!1 &1762151129895157103
 GameObject:
   m_ObjectHideFlags: 0
@@ -116530,6 +116545,7 @@ GameObject:
   - component: {fileID: 7575594203335222106}
   - component: {fileID: 1162227372764680029}
   - component: {fileID: 2543982481558370966}
+  - component: {fileID: 405262110343500061}
   m_Layer: 0
   m_Name: Plane (1)
   m_TagString: Untagged
@@ -116624,6 +116640,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &405262110343500061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989077710585443657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d770016719b456b44bb5a16b8d476f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: f400a841531c48a4d982f01f44d18906, type: 2}
+  surfaceName: Tiles
 --- !u!1 &4991866582495743616
 GameObject:
   m_ObjectHideFlags: 0
