@@ -7,6 +7,10 @@ public class YarnAudioController : MonoBehaviour
 
     [Header("Clips")]
     [SerializeField] private AudioClip voiceJan;
+    [SerializeField] private AudioClip Jan1;
+    [SerializeField] private AudioClip Jan2;
+    [SerializeField] private AudioClip Jan3;
+    [SerializeField] private AudioClip Jan4;
     [SerializeField] private AudioClip doorSlam;
     [SerializeField] private AudioClip whisper;
 
@@ -17,8 +21,20 @@ public class YarnAudioController : MonoBehaviour
 
         switch (soundName)
         {
-            case "phone_ring":
-                clip = voiceJan;
+            case "Jan1":
+                clip = Jan1;
+                break;
+
+            case "Jan2":
+                clip = Jan2;
+                break;
+
+            case "Jan3.1":
+                clip = Jan3;
+                break;
+
+            case "Jan3.2":
+                clip = Jan4;
                 break;
 
             case "door_slam":
