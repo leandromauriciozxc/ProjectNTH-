@@ -17,4 +17,15 @@ public class CameraMotionController : MonoBehaviour
         lookSway.UpdateSway(look.MouseX);
         idleBreathing.UpdateBreath(movement.MoveDirection.magnitude);
     }
+
+    public void SetMovementAndSpeed()
+    {
+        movement.walkSpeed = 1f;
+        movement.runSpeed = 1.5f;
+    }
+    public void ReturnDefaultMovementSpeed()
+    {
+        movement.walkSpeed = 2f;
+        movement.runSpeed = 3f;
+    }
 }

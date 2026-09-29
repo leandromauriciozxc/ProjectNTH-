@@ -7,7 +7,11 @@ using Yarn.Unity;
 public class HeadacheEffect : MonoBehaviour
 {
     [SerializeField] private Volume volume;
-    [SerializeField] CinemachineVirtualCamera cinemachineCamera;
+    [SerializeField] private CameraMotionController cameraMotionController;
+    [Header("Headache")]
+    [SerializeField] private bool useTimer = false;
+    [SerializeField] private float duration = 5f;
+
     [Header("Base Values")]
     [SerializeField] private float vignetteBase = 0.55f;
     [SerializeField] private float distortionBase = -0.35f;
@@ -26,7 +30,7 @@ public class HeadacheEffect : MonoBehaviour
 
     [SerializeField]
     private bool headacheActive;
-
+    private float headacheTimer;
     private void Awake()
     {
         volume.profile.TryGet(out vignette);
@@ -40,6 +44,17 @@ public class HeadacheEffect : MonoBehaviour
     {
         if (!headacheActive)
             return;
+
+        if (useTimer)
+        {
+            headacheTimer -= Time.deltaTime;
+
+            if (headacheTimer <= 0f)
+            {
+                StopHeadache();
+                return;
+            }
+        }
 
         float time = Time.time * fluctuationSpeed;
 
@@ -64,18 +79,24 @@ public class HeadacheEffect : MonoBehaviour
             chromaticBase +
             chromaticNoise * chromaticVariation;
     }
-
+    [YarnCommand("start_headache")]
+    public void TimedHeadacheEffect()
+    {
+        useTimer = true;
+    }
     public void StartHeadache()
     {
         volume.enabled = true;  
         headacheActive = true;
-        
+        headacheTimer = duration;
+
     }
     [YarnCommand("stop_headache")]
     public void StopHeadache()
     {
         headacheActive = false;
-
+        headacheTimer = 0f;
+        cameraMotionController.ReturnDefaultMovementSpeed();
         if (vignette != null)
             vignette.intensity.value = 0f;
 

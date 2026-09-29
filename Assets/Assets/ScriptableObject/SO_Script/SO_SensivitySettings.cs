@@ -14,6 +14,10 @@ public class SO_SensivitySettings : ScriptableObject
     public float minSensitivity = 50f;
     public float maxSensitivity = 300f;
 
+    public float setGetSensitivity(float sens)
+    {
+        return sensitivity = sens;
+    }
     public float GetSensitivity()
     {
         return Mathf.Lerp(minSensitivity, maxSensitivity, sensitivity);
