@@ -3,6 +3,7 @@
 <<play_sound FirstTrigger Jan1>>
 Jan: Pst! Inday, daw mayo aw, ga gwapa kana gd!hehehe
 Inday: ahhhh, indi gd man nong ah! 
+<<play_sound FirstTrigger Jan2>>
 Jan: Pa office kana? Halong inday hehehe 
 -> Ambot ya ay, bahala kada 
     <<play_sound FirstTrigger Jan3.1>>
