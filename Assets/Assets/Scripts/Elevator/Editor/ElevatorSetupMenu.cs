@@ -207,6 +207,7 @@ namespace ProjectNTH.Elevators.Editor
             SetReference(settings, "background", background);
             settings.FindProperty("floorIndex").intValue = index;
             settings.FindProperty("action").enumValueIndex = (int)action;
+            settings.FindProperty("followElevatorFloor").boolValue = isCall;
             settings.ApplyModifiedProperties();
 
             var interaction = new SerializedObject(item.GetComponent<Interactable>());

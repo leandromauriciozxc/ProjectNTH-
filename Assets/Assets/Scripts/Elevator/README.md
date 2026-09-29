@@ -26,7 +26,11 @@ The inspected scene has `G`, `>|<`, `<|>`, then `1` through `15`. In Edit Mode, 
 
 ## Hallway UP and DOWN calls
 
-For your existing panel, select the hallway button and set **Action = Call Up**. Duplicate it for **Action = Call Down** and position the duplicate beside/below it. On BOTH, set **Hallway Floor** to the floor where the player stands, and keep the same Elevator reference. Keep **On Interact > ElevatorFloorButton.Press()** pointed at each button's own component. Enable Automatic Label for UP/DOWN text, or disable it to use your own arrow text.
+For your existing panel, select the hallway button and set **Action = Call Up**. Duplicate it for **Action = Call Down** and position the duplicate beside/below it. Keep the same Elevator reference on both. Keep **On Interact > ElevatorFloorButton.Press()** pointed at each button's own component. Enable Automatic Label for UP/DOWN text, or disable it to use your own arrow text.
+
+For the shared hallway used by the stationary elevator, enable **Follow Elevator Floor** on BOTH call buttons. **Hallway Floor** then displays the last floor reached automatically, including the configured Starting Floor. When a Timeline signal calls SelectFloor and the elevator arrives at 13, both hallway buttons represent 13 and DOWN becomes available. The hallway stays at the departure landing during travel and changes on arrival, before arrival events run. Updating only display text in a Timeline does not change the controller's floor.
+
+For separate hallway panels permanently installed on different floors, leave **Follow Elevator Floor** off and set each panel's **Hallway Floor** manually. Cabin destination and door buttons ignore this option. Fresh elevator setups enable it on their shared hallway panel; the existing IndoorScene panel and Elevator prefab also use it.
 
 UP/DOWN calls bring the elevator to that hallway floor; they do not move the player one floor. The player chooses a destination after entering. Calls received during a trip are remembered; the buttons stay highlighted while pending. Further callers are served after **Hallway Boarding Time** has elapsed with doors open. Up is unavailable on the highest floor; Down is unavailable on the lowest. This is a single-cabin, first-requested-floor queue, not a multi-elevator dispatch system.
 
@@ -91,6 +95,7 @@ Assign **Door Clip**, **Travel Loop** and **Arrival Chime** on the controller if
 - Choose a non-first Starting Floor and a 3-second Initial Opening Delay; verify the initial name and closed-door delay before animation begins.
 - Look at the back of a cabin/hallway button: it should not show an E prompt or activate.
 - Call from a different hallway floor while the elevator is busy; verify that it finishes its current trip, waits for boarding, and comes to the caller's floor.
+- With Follow Elevator Floor enabled, arrive at floor 13 and verify that the hallway Inspector shows 13 (automatic), DOWN offers a call, and pressing it opens the doors at 13. Return to G and verify DOWN is unavailable; at the highest floor verify UP is unavailable. During travel, the hallway must retain the departure floor rather than each passing indicator number.
 - Press a floor repeatedly while travelling; only the original trip should complete.
 - Select the current floor; there should be no travel or landing event.
 - Press CLOSE then OPEN while stationary: doors move without changing floors or invoking landing events.

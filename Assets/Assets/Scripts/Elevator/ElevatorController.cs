@@ -56,6 +56,9 @@ namespace ProjectNTH.Elevators
         public int CurrentFloorIndex { get; private set; }
         public int TargetFloorIndex { get; private set; }
         public int FloorCount => floors == null ? 0 : floors.Length;
+        /// <summary>The landing currently represented outside the cabin; changes only on arrival.</summary>
+        public int LandingFloorIndex => initialized ? settledFloor
+            : Mathf.Clamp(startingFloor, 0, Mathf.Max(0, FloorCount - 1));
         public bool IsBusy => State != RideState.Idle;
         public int Direction => State == RideState.Travelling ? travelDirection : 0;
         public bool CanOperateDoors => initialized && isActiveAndEnabled
@@ -267,8 +270,8 @@ namespace ProjectNTH.Elevators
 
             StopTravelSound();
             hallwayRequests[CurrentFloorIndex] = 0;
-            SetState(RideState.Arriving);
             settledFloor = CurrentFloorIndex;
+            SetState(RideState.Arriving);
             // Keep this cabin/controller active when switching external floor areas.
             floors[settledFloor]?.onArrival?.Invoke();
             if (!isActiveAndEnabled) yield break;

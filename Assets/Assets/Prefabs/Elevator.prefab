@@ -12778,6 +12778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 3
+  followElevatorFloor: 1
   floorIndex: 0
   openDoorsOnly: 0
   label: {fileID: 4141507348753952362}
@@ -13335,6 +13336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 4
+  followElevatorFloor: 1
   floorIndex: 0
   openDoorsOnly: 0
   label: {fileID: 7117301187297731046}
