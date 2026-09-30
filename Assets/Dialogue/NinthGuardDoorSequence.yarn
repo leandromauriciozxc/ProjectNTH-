@@ -1,0 +1,7 @@
+﻿title: NinthGuardDoorSequence
+---
+Inday: Nong! gina ta pa ka gina pangita!
+Inday: Nong?
+<<anim_trigger Police1Rigged goRun>>
+<<move Police1Rigged>>
+===
