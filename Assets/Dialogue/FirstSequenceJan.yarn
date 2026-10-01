@@ -3,11 +3,11 @@
 <<play_sound JanTrigger Jan1>>
 Jan: Pst! Hey! Wow you look so pretty right now hehehe
 <<play_sound JanTrigger MainChar1>>
-Inday: Ahhhh, not really
+Rosetta: Ahhhh, not really
 <<play_sound JanTrigger Jan2>>
 Jan: Going to the office already? Take care
 <<play_sound JanTrigger MainChar2.1>>
-Inday: Fuck off!
+Rosetta: Fuck off!
 <<play_sound JanTrigger Jan3.1>>
-Jan: Woah! snobbish, that's my type
+Jan: Woah! snobbish, that's my type, it's okay, you're beautiful anyways
 ===
