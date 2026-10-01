@@ -12,6 +12,8 @@ namespace ProjectNTH.Elevators
 
         [SerializeField] private ElevatorController elevator;
         [SerializeField] private ButtonAction action;
+        [Tooltip("Enable for a shared hallway panel that represents each floor after the elevator arrives. Leave off for a separate panel permanently installed on one floor.")]
+        [SerializeField] private bool followElevatorFloor;
         [Tooltip("Select Floor: destination. Call Up/Down: the hallway where this button is mounted. Ignored by door controls.")]
         [Min(0), SerializeField] private int floorIndex;
         // Retain the old serialized field so existing hallway OPEN buttons migrate correctly.
@@ -31,6 +33,10 @@ namespace ProjectNTH.Elevators
         public ElevatorController Elevator => elevator;
         public int FloorIndex => floorIndex;
         public ButtonAction Action => action;
+        public bool FollowsElevatorFloor => followElevatorFloor
+            && (action == ButtonAction.CallUp || action == ButtonAction.CallDown);
+        public int EffectiveFloorIndex => FollowsElevatorFloor && elevator != null
+            ? elevator.LandingFloorIndex : floorIndex;
 
         public bool CanInteractFrom(Vector3 viewerPosition)
         {
@@ -58,8 +64,8 @@ namespace ProjectNTH.Elevators
             {
                 case ButtonAction.OpenDoors: elevator.OpenDoors(); break;
                 case ButtonAction.CloseDoors: elevator.CloseDoors(); break;
-                case ButtonAction.CallUp: elevator.CallToFloor(floorIndex, 1); break;
-                case ButtonAction.CallDown: elevator.CallToFloor(floorIndex, -1); break;
+                case ButtonAction.CallUp: elevator.CallToFloor(EffectiveFloorIndex, 1); break;
+                case ButtonAction.CallDown: elevator.CallToFloor(EffectiveFloorIndex, -1); break;
                 default: elevator.SelectFloor(floorIndex); break;
             }
         }
@@ -84,8 +90,9 @@ namespace ProjectNTH.Elevators
                 : isCall ? (callDirection > 0 ? "UP" : "DOWN") : opens ? "OPEN" : "CLOSE";
             if (automaticLabel && label != null)
                 label.text = automaticText;
-            bool pending = isCall && elevator.IsHallwayCallPending(floorIndex, callDirection);
-            bool blocked = isCall ? !elevator.IsValidHallwayCall(floorIndex, callDirection)
+            int hallwayFloor = EffectiveFloorIndex;
+            bool pending = isCall && elevator.IsHallwayCallPending(hallwayFloor, callDirection);
+            bool blocked = isCall ? !elevator.IsValidHallwayCall(hallwayFloor, callDirection)
                 : isFloor ? elevator.IsBusy : !elevator.CanOperateDoors;
             GetComponent<Interactable>().SetPromptText(blocked ? (isCall ? "No floor in this direction" : "Elevator busy")
                 : pending ? "Elevator called"

@@ -1,0 +1,8 @@
+﻿title: SixthSequenceStationTable
+---
+Inday: Ouch! sakit sang ulo ko ba!!
+Inday: Gosh, Nalipat ko mag inom bulong, 
+Inday: Pa locker ko danay, kag pa pantry!
+<<stop_headache PostProcess>>
+<<hide_gameobject Secquence>>
+===

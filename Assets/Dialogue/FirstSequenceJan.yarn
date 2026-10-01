@@ -1,11 +1,13 @@
 ﻿title: FirstSequenceJan
 ---
-Jan: Pst! Inday, daw mayo aw, ga gwapa kana gd!hehehe
-<<play_sound FirstTrigger phone_ring>>
-Inday: ahhhh, indi gd man nong ah! 
-Jan: Pa office kana? Halong inday hehehe 
--> Ambot ya ay, bahala kada 
-    Jan: baw suplada kay inday! ok lg gwapa kaman ah hehehes
--> Ok nong salamat
-    Jan: Buot na gwapa pa! 
+<<play_sound FirstTrigger Jan1>>
+Jan: Pst! Hey! Wow you look so pretty right now hehehe
+<<play_sound FirstTrigger MainChar1>>
+Inday: Ahhhh, not really
+<<play_sound FirstTrigger Jan2>>
+Jan: Going to the office already? Take care
+<<play_sound FirstTrigger MainChar2.1>>
+Inday: Fuck off!
+<<play_sound FirstTrigger Jan3.1>>
+Jan: Woah! snobbish, that's my type
 ===
