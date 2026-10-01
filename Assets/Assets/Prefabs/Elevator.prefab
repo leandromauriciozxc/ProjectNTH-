@@ -674,6 +674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 14
   openDoorsOnly: 0
   label: {fileID: 476301574901404909}
@@ -1267,6 +1268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 6
   openDoorsOnly: 0
   label: {fileID: 34183307211790995}
@@ -1419,6 +1421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 0
   openDoorsOnly: 0
   label: {fileID: 3624428519638968415}
@@ -2834,6 +2837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 1
+  followElevatorFloor: 0
   floorIndex: 2
   openDoorsOnly: 0
   label: {fileID: 5411095317875271766}
@@ -3617,6 +3621,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 2
   openDoorsOnly: 0
   label: {fileID: 3723449651014052127}
@@ -3897,6 +3902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 2
+  followElevatorFloor: 0
   floorIndex: 1
   openDoorsOnly: 0
   label: {fileID: 6372353924421862160}
@@ -4355,6 +4361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 1
   openDoorsOnly: 0
   label: {fileID: 2801132064409791110}
@@ -4913,6 +4920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 12
   openDoorsOnly: 0
   label: {fileID: 8806703975769708280}
@@ -5203,6 +5211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 7
   openDoorsOnly: 0
   label: {fileID: 3935086131783898720}
@@ -5386,6 +5395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 10
   openDoorsOnly: 0
   label: {fileID: 9171310958131384649}
@@ -5538,6 +5548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 4
   openDoorsOnly: 0
   label: {fileID: 7845202844495317253}
@@ -6864,6 +6875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 5
   openDoorsOnly: 0
   label: {fileID: 2200501010787291915}
@@ -8450,6 +8462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 9
   openDoorsOnly: 0
   label: {fileID: 8190185907914394577}
@@ -8766,6 +8779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 13
   openDoorsOnly: 0
   label: {fileID: 1192626724172004033}
@@ -10537,6 +10551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 8
   openDoorsOnly: 0
   label: {fileID: 3532054207434895094}
@@ -12474,6 +12489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 11
   openDoorsOnly: 0
   label: {fileID: 4267791067746258783}
@@ -12626,6 +12642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 3
   openDoorsOnly: 0
   label: {fileID: 1881848185319354122}
@@ -13079,6 +13096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elevator: {fileID: 7588815969374804261}
   action: 0
+  followElevatorFloor: 0
   floorIndex: 15
   openDoorsOnly: 0
   label: {fileID: 2764977878761525001}
