@@ -1,0 +1,11 @@
+Model Information:
+* title:	Unknown Medicine
+* source:	https://sketchfab.com/3d-models/unknown-medicine-4bc52e02577c4c5794fa31cd3045a34e
+* author:	Remaxp36 (https://sketchfab.com/Remaxp36)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Unknown Medicine" (https://sketchfab.com/3d-models/unknown-medicine-4bc52e02577c4c5794fa31cd3045a34e) by Remaxp36 (https://sketchfab.com/Remaxp36) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
