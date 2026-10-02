@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 namespace ProjectNTH.UI
 {
-    /// <summary>A timed task reminder that contracts to an icon and opens again with Tab.</summary>
+    /// <summary>An animated task reminder with a cross-out and exit sequence on completion.</summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("Project NTH/UI/Task Panel UI")]
     public sealed class TaskPanelUI : MonoBehaviour
@@ -22,6 +23,16 @@ namespace ProjectNTH.UI
         [Min(0.1f), SerializeField] private float displayDuration = 4f;
         [Tooltip("Seconds for the opening/shrinking animation. Set to 0 for instant changes.")]
         [Min(0f), SerializeField] private float animationDuration = 0.3f;
+        [Tooltip("Seconds for a first or new task to slide in from off-screen.")]
+        [Min(0f), SerializeField] private float entranceDuration = 0.4f;
+
+        [Header("Completion animation")]
+        [Tooltip("Seconds to draw the cross-out across the message, including wrapped lines.")]
+        [Min(0f), SerializeField] private float crossoutDuration = 0.45f;
+        [Tooltip("Seconds to hold the crossed-out message before it leaves.")]
+        [Min(0f), SerializeField] private float completionPause = 0.35f;
+        [Tooltip("Seconds for the completed panel to retract off the left edge.")]
+        [Min(0f), SerializeField] private float exitDuration = 0.3f;
 
         [Header("Position and size")]
         [Tooltip("Inset from the upper-left safe area, in 1920 x 1080 reference pixels.")]
@@ -66,25 +77,62 @@ namespace ProjectNTH.UI
         private Rect lastSafeArea;
         private float expandedWidth;
         private float expandedHeight;
+        private enum Phase { Hidden, Entering, Ready, CompletingReveal, CrossingOut, CompletionHold, Exiting }
+        private Phase phase;
+        private float phaseStarted;
+        private float presence;
+        private float completionRevealFrom;
+        private float strikeProgress;
+        private string nextTaskMessage = string.Empty;
+        private Vector2 homePosition;
+        private readonly List<RectTransform> strikeLines = new List<RectTransform>();
+        private readonly List<float> strikeWidths = new List<float>();
+        private float totalStrikeWidth;
 
         public string CurrentTask => taskMessage;
         public bool HasTask => !string.IsNullOrWhiteSpace(taskMessage);
         public bool IsExpanded => HasTask && expanded;
+        public bool IsCompleting => phase == Phase.CompletingReveal || phase == Phase.CrossingOut
+            || phase == Phase.CompletionHold || phase == Phase.Exiting;
 
-        /// <summary>Assign a task and display it immediately; usable from UnityEvents and Timeline signals.</summary>
+        /// <summary>Animate a new task in. During completion, queue it until the old task has left.</summary>
         public void SetTask(string message)
         {
+            if (IsCompleting)
+            {
+                nextTaskMessage = message ?? string.Empty;
+                return;
+            }
             taskMessage = message ?? string.Empty;
             layoutDirty = true;
             if (!isActiveAndEnabled) return;
-            if (HasTask) Reveal();
+            if (HasTask) BeginEntrance(true);
             else ClearTask();
+        }
+
+        /// <summary>Cross out and dismiss the current task, leaving no next task.</summary>
+        public void CompleteTask() => CompleteAndShowNext(string.Empty);
+
+        /// <summary>Cross out this task, slide it away, then animate in the supplied next instruction.</summary>
+        public void CompleteAndShowNext(string nextMessage)
+        {
+            // Repeated trigger/interaction events cannot restart a completion already in progress.
+            if (IsCompleting) return;
+            if (!HasTask || !isActiveAndEnabled)
+            {
+                SetTask(nextMessage);
+                return;
+            }
+            nextTaskMessage = nextMessage ?? string.Empty;
+            completionRevealFrom = presence;
+            SetExpanded(true);
+            SetPhase(Phase.CompletingReveal);
         }
 
         /// <summary>Show the current message again and restart its display timer.</summary>
         public void Reveal()
         {
-            if (!isActiveAndEnabled || !HasTask) return;
+            if (!isActiveAndEnabled || !HasTask || IsCompleting) return;
             SetExpanded(true);
             collapseAt = Time.unscaledTime + Mathf.Max(0.1f, displayDuration)
                 + (expansion < 1f ? Mathf.Max(0f, animationDuration) : 0f);
@@ -93,6 +141,7 @@ namespace ProjectNTH.UI
 
         public void Collapse()
         {
+            if (IsCompleting) return;
             SetExpanded(false);
         }
 
@@ -100,6 +149,10 @@ namespace ProjectNTH.UI
         public void ClearTask()
         {
             taskMessage = string.Empty;
+            nextTaskMessage = string.Empty;
+            phase = Phase.Hidden;
+            presence = strikeProgress = 0f;
+            ResetStrikeLines();
             expanded = false;
             expansion = animationFrom = animationTarget = 0f;
             layoutDirty = true;
@@ -109,28 +162,96 @@ namespace ProjectNTH.UI
         private void OnEnable()
         {
             CreateUI();
-            layoutDirty = true;
+            if (HasTask) BeginEntrance(showOnEnable);
+            else ClearTask();
+        }
+
+        private void BeginEntrance(bool openMessage)
+        {
+            ResetStrikeLines();
+            presence = strikeProgress = 0f;
             expanded = false;
             expansion = animationFrom = animationTarget = 0f;
-            if (showOnEnable) Reveal();
+            SetExpanded(openMessage);
+            SetPhase(Phase.Entering);
+            // Pose the whole UI outside the screen before activating it, avoiding a one-frame flash.
             RefreshLayout();
             ApplyAnimation();
-            root.gameObject.SetActive(HasTask);
+            root.gameObject.SetActive(true);
         }
 
         private void Update()
         {
-            if (root.gameObject.activeSelf != HasTask) root.gameObject.SetActive(HasTask);
-            if (!HasTask) return;
+            if (!HasTask)
+            {
+                if (phase != Phase.Hidden) ClearTask();
+                return;
+            }
+            if (phase == Phase.Hidden) BeginEntrance(showOnEnable);
             if (TabPressed() && !IsTyping()) Reveal();
-            if (expanded && Time.unscaledTime >= collapseAt) Collapse();
+            if (phase == Phase.Ready && expanded && Time.unscaledTime >= collapseAt) Collapse();
             float duration = Mathf.Max(0f, animationDuration);
             float t = duration == 0f ? 1f : Mathf.Clamp01((Time.unscaledTime - animationStarted) / duration);
             float eased = 1f - Mathf.Pow(1f - t, 3f);
             expansion = Mathf.Lerp(animationFrom, animationTarget, eased);
             if (layoutDirty || canvasRect.rect.size != lastCanvasSize || Screen.safeArea != lastSafeArea)
                 RefreshLayout();
+            AdvanceSequence();
             ApplyAnimation();
+        }
+
+        private void SetPhase(Phase value)
+        {
+            phase = value;
+            phaseStarted = Time.unscaledTime;
+        }
+
+        private float PhaseProgress(float duration) => duration <= 0f ? 1f
+            : Mathf.Clamp01((Time.unscaledTime - phaseStarted) / duration);
+
+        private static float EaseOut(float t) => 1f - Mathf.Pow(1f - t, 3f);
+
+        private void AdvanceSequence()
+        {
+            // A bounded loop allows zero-duration settings to finish without extra blank frames.
+            for (int step = 0; step < 6; step++)
+            {
+                switch (phase)
+                {
+                    case Phase.Entering:
+                        presence = EaseOut(PhaseProgress(entranceDuration));
+                        if (presence < 1f || (expanded && expansion < 1f)) return;
+                        SetPhase(Phase.Ready);
+                        collapseAt = Time.unscaledTime + Mathf.Max(0.1f, displayDuration);
+                        return;
+                    case Phase.CompletingReveal:
+                        presence = Mathf.Lerp(completionRevealFrom, 1f, EaseOut(PhaseProgress(entranceDuration)));
+                        if (presence < 1f || expansion < 1f) return;
+                        ApplyAnimation();
+                        BuildStrikeLines();
+                        SetPhase(Phase.CrossingOut);
+                        break;
+                    case Phase.CrossingOut:
+                        strikeProgress = PhaseProgress(crossoutDuration);
+                        if (strikeProgress < 1f) return;
+                        SetPhase(Phase.CompletionHold);
+                        break;
+                    case Phase.CompletionHold:
+                        if (PhaseProgress(completionPause) < 1f) return;
+                        SetPhase(Phase.Exiting);
+                        break;
+                    case Phase.Exiting:
+                        float progress = PhaseProgress(exitDuration);
+                        presence = 1f - progress * progress * progress;
+                        if (progress < 1f) return;
+                        string next = nextTaskMessage;
+                        ClearTask();
+                        if (!string.IsNullOrWhiteSpace(next)) SetTask(next);
+                        return;
+                    default:
+                        return;
+                }
+            }
         }
 
         private void SetExpanded(bool value)
@@ -174,7 +295,7 @@ namespace ProjectNTH.UI
             float scale = Mathf.Max(0.001f, canvas.scaleFactor);
             float left = lastSafeArea.xMin / scale + Mathf.Max(0f, screenOffset.x);
             float top = (Screen.height - lastSafeArea.yMax) / scale + Mathf.Max(0f, screenOffset.y);
-            root.anchoredPosition = new Vector2(left, -top);
+            homePosition = new Vector2(left, -top);
             float availableWidth = Mathf.Max(160f, lastSafeArea.width / scale - Mathf.Max(0f, screenOffset.x) - 24f);
             float widthLimit = Mathf.Min(Mathf.Max(160f, maximumWidth), availableWidth);
             float widthFloor = Mathf.Min(Mathf.Max(160f, minimumWidth), widthLimit);
@@ -191,18 +312,88 @@ namespace ProjectNTH.UI
             expandedHeight = Mathf.Min(Mathf.Max(panelHeight, textHeight + 28f), availableHeight);
             messageText.rectTransform.sizeDelta = new Vector2(textWidth, expandedHeight - 20f);
             messageText.rectTransform.anchoredPosition = new Vector2(0f, -10f);
+            if (phase == Phase.CrossingOut || phase == Phase.CompletionHold || phase == Phase.Exiting)
+                BuildStrikeLines();
         }
 
         private void ApplyAnimation()
         {
             float height = Mathf.Lerp(Mathf.Max(56f, panelHeight), expandedHeight, expansion);
             float width = Mathf.Lerp(CompactWidth, expandedWidth, expansion);
+            // Include the safe-area inset and the TAB label so every part clears the left screen edge.
+            float hiddenX = -Mathf.Max(expandedWidth, CompactWidth + 110f) - 24f;
+            root.anchoredPosition = new Vector2(Mathf.Lerp(hiddenX, homePosition.x, presence), homePosition.y);
             panel.sizeDelta = new Vector2(width, height);
             textViewport.sizeDelta = new Vector2(Mathf.Max(0f, width - TextInset - RightPadding), height);
             diamond.anchoredPosition = new Vector2(72f, -height * 0.5f);
             tabHint.rectTransform.anchoredPosition = new Vector2(CompactWidth + 10f, -panelHeight * 0.5f);
             messageGroup.alpha = Mathf.Clamp01(expansion * 3f);
-            hintGroup.alpha = 1f - Mathf.Clamp01(expansion * 5f);
+            hintGroup.alpha = phase == Phase.Ready ? 1f - Mathf.Clamp01(expansion * 5f) : 0f;
+            ApplyStrikeAnimation();
+        }
+
+        private void ResetStrikeLines()
+        {
+            foreach (RectTransform line in strikeLines)
+                if (line != null) line.gameObject.SetActive(false);
+            strikeWidths.Clear();
+            totalStrikeWidth = 0f;
+        }
+
+        private void BuildStrikeLines()
+        {
+            ResetStrikeLines();
+            // Use the font's actual glyph positions, so the cross-out also follows wrapped text.
+            messageText.ForceMeshUpdate();
+            TMP_TextInfo info = messageText.textInfo;
+            for (int i = 0; i < info.lineCount; i++)
+            {
+                TMP_LineInfo line = info.lineInfo[i];
+                if (line.visibleCharacterCount == 0) continue;
+                TMP_CharacterInfo first = info.characterInfo[line.firstVisibleCharacterIndex];
+                TMP_CharacterInfo last = info.characterInfo[line.lastVisibleCharacterIndex];
+                float width = Mathf.Max(0f, last.topRight.x - first.bottomLeft.x);
+                if (width <= 0f) continue;
+                int index = strikeWidths.Count;
+                if (index == strikeLines.Count)
+                {
+                    RectTransform rect = NewRect("Completion cross-out " + (index + 1), messageText.transform, Vector2.zero);
+                    rect.pivot = new Vector2(0f, 0.5f);
+                    var image = rect.gameObject.AddComponent<Image>();
+                    image.raycastTarget = false;
+                    strikeLines.Add(rect);
+                }
+                RectTransform stroke = strikeLines[index];
+                // OldCupboard's strike metric sits near the baseline. Center on the rendered
+                // letter bodies instead, including its small caps and any replacement font.
+                float y = 0f;
+                int visibleGlyphs = 0;
+                for (int character = line.firstVisibleCharacterIndex; character <= line.lastVisibleCharacterIndex; character++)
+                {
+                    TMP_CharacterInfo glyph = info.characterInfo[character];
+                    if (!glyph.isVisible) continue;
+                    y += (glyph.bottomLeft.y + glyph.topRight.y) * 0.5f;
+                    visibleGlyphs++;
+                }
+                y /= Mathf.Max(1, visibleGlyphs);
+                stroke.anchoredPosition = new Vector2(first.bottomLeft.x, y);
+                stroke.GetComponent<Image>().color = textColor;
+                strikeWidths.Add(width);
+                totalStrikeWidth += width;
+            }
+            ApplyStrikeAnimation();
+        }
+
+        private void ApplyStrikeAnimation()
+        {
+            float remaining = strikeProgress * totalStrikeWidth;
+            for (int i = 0; i < strikeWidths.Count; i++)
+            {
+                float length = Mathf.Clamp(remaining, 0f, strikeWidths[i]);
+                strikeLines[i].sizeDelta = new Vector2(length, Mathf.Max(2f, fontSize * 0.05f));
+                strikeLines[i].gameObject.SetActive(length > 0f);
+                remaining -= strikeWidths[i];
+            }
         }
 
         private void CreateUI()
@@ -303,6 +494,10 @@ namespace ProjectNTH.UI
         {
             displayDuration = Mathf.Max(0.1f, displayDuration);
             animationDuration = Mathf.Max(0f, animationDuration);
+            entranceDuration = Mathf.Max(0f, entranceDuration);
+            crossoutDuration = Mathf.Max(0f, crossoutDuration);
+            completionPause = Mathf.Max(0f, completionPause);
+            exitDuration = Mathf.Max(0f, exitDuration);
             panelHeight = Mathf.Max(56f, panelHeight);
             maximumWidth = Mathf.Max(160f, maximumWidth);
             minimumWidth = Mathf.Clamp(minimumWidth, 160f, maximumWidth);
@@ -311,6 +506,12 @@ namespace ProjectNTH.UI
 
         private void OnDisable()
         {
+            // Completion has already been accepted. A cutscene disabling the HUD must not revive it.
+            if (IsCompleting) taskMessage = nextTaskMessage;
+            nextTaskMessage = string.Empty;
+            phase = Phase.Hidden;
+            strikeLines.Clear();
+            strikeWidths.Clear();
             if (overlay != null)
             {
                 overlay.SetActive(false);
