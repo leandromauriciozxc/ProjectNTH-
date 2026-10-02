@@ -2,8 +2,10 @@
 ---
 <<play_sound GuardTrigger Guard1>>
 Manong Guard: Madam! Make it faster, I'm gonna close this thing up!
-Rosetta: Kalma lang lg manong guard, ma gwa nako ah!
+<<play_sound GuardTrigger MainChar4>>
+Rosetta: Chill! I'm about to go out anyways
 <<play_sound GuardTrigger Guard2>>
 Manong Guard: Faster! The door won't close itself! Weren't you informed that there's a curfew?
-Rosetta: Ga dali gd sa.
+<<play_sound GuardTrigger MainChar5>>
+Rosetta: So uptight!
 ===
