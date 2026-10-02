@@ -3,5 +3,5 @@
 Inday: Ouch! sakit sang ulo ko ba!! Nalipat ko mag inom bulong,
 Inday: Pa locker ko danay, kag pa pantry! 
 <<stop_headache PostProcess>>
-<<hide_gameobject Secquence>>
+<<hide_gameobject vcamStationMainCharacter>>
 ===
