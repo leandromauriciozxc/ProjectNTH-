@@ -8,6 +8,7 @@ public class TriggerHandler : MonoBehaviour
     [SerializeField] private bool triggerOnce = true;
     [SerializeField] private UnityEvent onTriggered;
 
+    [SerializeField]
     private bool hasTriggered;
 
     private void OnTriggerEnter(Collider other)
