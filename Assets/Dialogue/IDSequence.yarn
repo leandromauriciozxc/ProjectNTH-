@@ -1,5 +1,7 @@
 ﻿title: IDSequence
 ---
-Inday: Ay shit! Nabilin pa ID ko ya
-Inday: Sirado na, bala na da ah
+<<play_sound IDTrigger MainChar6>>
+Rosetta: Oh shit! I left my ID!
+<<play_sound IDTrigger MainChar7>>
+Rosetta: Already closed, it is what it is
 ===
