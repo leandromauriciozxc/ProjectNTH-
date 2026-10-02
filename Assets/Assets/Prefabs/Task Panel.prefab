@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400000}
+  - component: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: Task Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c0af49d39d4e028b0322ddf7026ec4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskMessage: Go to locker
+  showOnEnable: 1
+  displayDuration: 4
+  animationDuration: 0.3
+  entranceDuration: 0.4
+  crossoutDuration: 0.45
+  completionPause: 0.35
+  exitDuration: 0.3
+  screenOffset: {x: 0, y: 132}
+  minimumWidth: 450
+  maximumWidth: 800
+  panelHeight: 84
+  sortingOrder: 0
+  font: {fileID: 11400000, guid: a1d335431e2ec9c448c141b6359e3ee4, type: 2}
+  fontSize: 56
+  backgroundColor: {r: 0.19, g: 0.19, b: 0.19, a: 0.94}
+  borderColor: {r: 0.78, g: 0.78, b: 0.76, a: 1}
+  textColor: {r: 0.9, g: 0.89, b: 0.85, a: 1}
+  iconColor: {r: 0.9843137, g: 1, b: 0.3254902, a: 1}
