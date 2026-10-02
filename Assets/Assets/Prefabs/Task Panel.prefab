@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 11400000}
+  - component: {fileID: 4952814099051776752}
   m_Layer: 0
   m_Name: Task Panel
   m_TagString: Untagged
@@ -55,11 +56,24 @@ MonoBehaviour:
   screenOffset: {x: 0, y: 132}
   minimumWidth: 450
   maximumWidth: 800
-  panelHeight: 84
+  panelHeight: 56
   sortingOrder: 0
   font: {fileID: 11400000, guid: a1d335431e2ec9c448c141b6359e3ee4, type: 2}
-  fontSize: 56
-  backgroundColor: {r: 0.19, g: 0.19, b: 0.19, a: 0.94}
-  borderColor: {r: 0.78, g: 0.78, b: 0.76, a: 1}
-  textColor: {r: 0.9, g: 0.89, b: 0.85, a: 1}
+  fontSize: 39
+  backgroundColor: {r: 0.19, g: 0.19, b: 0.19, a: 0.39215687}
+  borderColor: {r: 0.78, g: 0.78, b: 0.76, a: 0}
+  textColor: {r: 0.9, g: 0.89, b: 0.85, a: 0.39215687}
   iconColor: {r: 0.9843137, g: 1, b: 0.3254902, a: 1}
+--- !u!114 &4952814099051776752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4a6ba2b9cb1e34d93a0fe064576d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskHandler: {fileID: 11400000}
