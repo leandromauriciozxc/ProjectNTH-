@@ -15,6 +15,7 @@ public class PlayerLook : MonoBehaviour
     }
     void Update()
     {
+        if (UiOtherController.BlocksGameplayInput) { MouseX = 0f; return; }
         if (!canLook)
             return;
 

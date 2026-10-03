@@ -21,6 +21,7 @@ public class Raycast : MonoBehaviour
 
     private void Update()
     {
+        if (UiOtherController.BlocksGameplayInput) return;
         CheckRaycast();
     }
 
