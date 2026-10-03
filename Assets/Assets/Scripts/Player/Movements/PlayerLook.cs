@@ -20,12 +20,15 @@ public class PlayerLook : MonoBehaviour
 
         Vector2 look = input.Look;
 
-        var sensitivity = SensivitySettings.GetSensitivity();
+        var settings = ProjectNTH.Settings.GameSettings.Instance;
+        var sensitivity = settings != null && settings.HasSensitivity
+            ? Mathf.Lerp(SensivitySettings.minSensitivity, SensivitySettings.maxSensitivity, settings.Sensitivity)
+            : SensivitySettings.GetSensitivity();
 
         MouseX = look.x * sensitivity;
 
         float mouseY = look.y * sensitivity;
-        if (SensivitySettings.invertY)
+        if (settings != null && settings.HasInvertY ? settings.InvertY : SensivitySettings.invertY)
             mouseY *= -1f;
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);

@@ -21,6 +21,8 @@ The signal position is intentionally yours to choose; the existing cutscene and 
 - **Fade In Duration:** seconds to reveal the new scene (default 0.7).
 - **Minimum Black Duration:** minimum time fully black, including loading (default 0.2).
 - **Scene Settle Duration:** additional delay after activation and Start, before revealing the scene (default 0.15).
+- **Prioritize Loading While Black:** enabled by default. Temporarily increases Unity's background loading priority and removes the frame-rate/VSync limit only during the fully black loading stage. Restores the previous settings before the fade-in, on a loading error, and if the overlay is destroyed. Gameplay and fades keep the usual frame-rate settings.
+- **Log Transition Timings:** optional Console/Player log message showing load + activation time, time fully black, and total time including fades.
 - **Disable During Transition:** optional movement, camera-look or interaction components to suspend. Components that survive scene unloading have their previous enabled states restored.
 
 Fades use unscaled time, so they still finish when Time.timeScale is zero. The transition does not change time scale, cursor state or audio volume. The destination scene supplies its own player, camera and spawn position. Player state is not transferred between scenes by this component.
@@ -30,3 +32,13 @@ Duplicate signals are ignored while loading, and each loader accepts one success
 Asynchronous loading reduces blocking work, but Unity may still briefly stall during activation or scene initialization. The screen stays black across that stage. Content that your own code downloads or initializes later may need a longer settle delay or a separate readiness condition.
 
 For non-Timeline use, any Button or UnityEvent can call **LoadNextScene()** at the desired transition moment.
+
+## Checking a long black screen
+
+Existing prefab instances inherit **Prioritize Loading While Black**, so the existing Timeline Signal needs no rewiring. Test a newly built game: Unity's background loading priority only affects built Players, not the Editor. This gives asset integration more time per frame while the screen is hidden; the project's 60 FPS target is restored before revealing the destination. It cannot remove the cost of reading assets or running destination initialization code.
+
+Enable **Log Transition Timings** on the Scene Transition object to measure a slow transition. Compare the same build, route and hardware with the loading boost on and off, allowing for disk caching between runs. A large **load + activation** value points to asset loading, old-scene unloading or destination startup work. **Fully black** also includes the initial black frame, the initialization frame, and the configured settle/minimum-black delays; these measurements overlap and should not be added together.
+
+The default 0.2-second minimum black duration overlaps loading; it is not an extra wait after loading. Shortening fade durations will not solve a several-second load. If loading still dominates, profile the built Player's asset integration and Awake/Start work, or consider preloading during the cutscene as a separate change (which requires additional memory while both scenes' assets are resident).
+
+Unity reference: [Application.backgroundLoadingPriority](https://docs.unity3d.com/2022.3/Documentation/ScriptReference/Application-backgroundLoadingPriority.html).
