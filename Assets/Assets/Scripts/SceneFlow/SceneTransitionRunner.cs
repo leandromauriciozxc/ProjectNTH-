@@ -14,13 +14,17 @@ namespace ProjectNTH.SceneFlow
         private static SceneTransitionRunner active;
         private CanvasGroup fade;
         private readonly Dictionary<Behaviour, bool> previousStates = new Dictionary<Behaviour, bool>();
+        private bool loadingSettingsOverridden;
+        private ThreadPriority previousLoadingPriority;
+        private int previousTargetFrameRate;
+        private int previousVSyncCount;
         public static bool IsRunning => active != null;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStatics() => active = null;
 
         internal static void Begin(string scene, float fadeOut, float fadeIn, float minimumBlack,
-            float settle, Behaviour[] suspend)
+            float settle, Behaviour[] suspend, bool prioritizeLoading, bool logTimings)
         {
             if (IsRunning) return;
             var overlay = new GameObject("Scene Transition Overlay", typeof(RectTransform),
@@ -51,17 +55,23 @@ namespace ProjectNTH.SceneFlow
                     runner.previousStates.Add(behaviour, behaviour.enabled);
                     behaviour.enabled = false;
                 }
-            runner.StartCoroutine(runner.Transition(scene, fadeOut, fadeIn, minimumBlack, settle));
+            runner.StartCoroutine(runner.Transition(scene, fadeOut, fadeIn, minimumBlack, settle,
+                prioritizeLoading, logTimings));
         }
 
-        private IEnumerator Transition(string scene, float fadeOut, float fadeIn, float minimumBlack, float settle)
+        private IEnumerator Transition(string scene, float fadeOut, float fadeIn, float minimumBlack,
+            float settle, bool prioritizeLoading, bool logTimings)
         {
+            double transitionStarted = Time.realtimeSinceStartupAsDouble;
             try
             {
                 yield return FadeTo(1f, fadeOut);
-                float blackStarted = Time.realtimeSinceStartup;
+                double blackStarted = Time.realtimeSinceStartupAsDouble;
                 // Present a fully black frame before loading/activation can occupy the main thread.
                 yield return null;
+                // Favor throughput only after the fade is complete. Visible animation keeps its normal frame pacing.
+                if (prioritizeLoading) BoostLoading();
+                double loadStarted = Time.realtimeSinceStartupAsDouble;
                 AsyncOperation operation = null;
                 try
                 {
@@ -75,19 +85,50 @@ namespace ProjectNTH.SceneFlow
                 {
                     // Activation proceeds normally while the persistent overlay stays opaque.
                     yield return operation;
+                }
+                double loadSeconds = Time.realtimeSinceStartupAsDouble - loadStarted;
+                RestoreLoadingSettings();
+                if (operation != null)
+                {
                     // sceneLoaded precedes Start. Allow the destination to initialize under black.
                     yield return null;
                     if (settle > 0f) yield return new WaitForSecondsRealtime(settle);
                 }
-                float remaining = Mathf.Max(0f, minimumBlack) - (Time.realtimeSinceStartup - blackStarted);
+                float remaining = Mathf.Max(0f, minimumBlack) - (float)(Time.realtimeSinceStartupAsDouble - blackStarted);
                 if (remaining > 0f) yield return new WaitForSecondsRealtime(remaining);
+                double blackSeconds = Time.realtimeSinceStartupAsDouble - blackStarted;
                 yield return FadeTo(0f, fadeIn);
+                if (logTimings && operation != null)
+                    Debug.Log($"[Scene Transition] '{scene}': load + activation {loadSeconds:F2}s; "
+                        + $"fully black {blackSeconds:F2}s; total {Time.realtimeSinceStartupAsDouble - transitionStarted:F2}s. "
+                        + $"Loading boost: {(prioritizeLoading ? "on" : "off")}.");
             }
             finally
             {
                 Release();
                 Destroy(gameObject);
             }
+        }
+
+        private void BoostLoading()
+        {
+            previousLoadingPriority = Application.backgroundLoadingPriority;
+            previousTargetFrameRate = Application.targetFrameRate;
+            previousVSyncCount = QualitySettings.vSyncCount;
+            loadingSettingsOverridden = true;
+            // In a Player, High allows up to 50 ms/frame for async asset integration.
+            Application.backgroundLoadingPriority = ThreadPriority.High;
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = -1;
+        }
+
+        private void RestoreLoadingSettings()
+        {
+            if (!loadingSettingsOverridden) return;
+            loadingSettingsOverridden = false;
+            Application.backgroundLoadingPriority = previousLoadingPriority;
+            QualitySettings.vSyncCount = previousVSyncCount;
+            Application.targetFrameRate = previousTargetFrameRate;
         }
 
         private IEnumerator FadeTo(float target, float duration)
@@ -106,6 +147,8 @@ namespace ProjectNTH.SceneFlow
 
         private void Release()
         {
+            // Also restore settings if loading fails or the temporary runner is destroyed.
+            RestoreLoadingSettings();
             if (fade != null)
             {
                 fade.alpha = 0f;
