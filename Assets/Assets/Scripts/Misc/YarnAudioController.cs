@@ -152,7 +152,15 @@ public class YarnAudioController : MonoBehaviour
             return;
         }
 
+        if (audioSource == null)
+        {
+            Debug.LogWarning("Yarn audio needs an Audio Source.", this);
+            return;
+        }
         audioSource.Stop();
+        bool effect = soundName == "door_slam";
+        ProjectNTH.Settings.GameSettings.Route(audioSource, effect
+            ? ProjectNTH.Settings.AudioCategory.SoundEffects : ProjectNTH.Settings.AudioCategory.Dialogue);
         audioSource.clip = clip;
         audioSource.Play();
     }
