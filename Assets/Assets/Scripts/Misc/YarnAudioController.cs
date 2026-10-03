@@ -28,6 +28,9 @@ public class YarnAudioController : MonoBehaviour
     [SerializeField] private AudioClip MainChar15;
     [SerializeField] private AudioClip Guard1;
     [SerializeField] private AudioClip Guard2;
+    [SerializeField] private AudioClip Guard3;
+    [SerializeField] private AudioClip Guard4;
+    [SerializeField] private AudioClip Guard5;
     [SerializeField] private AudioClip Step1;
     [SerializeField] private AudioClip Step2;
     [SerializeField] private AudioClip Step3;
@@ -123,6 +126,15 @@ public class YarnAudioController : MonoBehaviour
 
             case "Guard2":
                 clip = Guard2;
+                break;
+            case "Guard3":
+                clip = Guard3;
+                break;
+            case "Guard4":
+                clip = Guard4;
+                break;
+            case "Guard5":
+                clip = Guard5;
                 break;
 
             case "Step1":

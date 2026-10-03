@@ -10,6 +10,6 @@ Step: Later broskie, just want to slack a little longer
 Inday: TL might get mad
 <<play_sound StephenDialogueTrigger Step3>>
 Step: I dont care
-<<play_sound GuardManyak MainChar13>>
+<<play_sound StephenDialogueTrigger MainChar13>>
 Inday: Suit yourself!
 ===

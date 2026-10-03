@@ -5,6 +5,7 @@ public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private Transform target;
+    [SerializeField] private AudioSource runSFX;
 
     private Coroutine moveRoutine;
 
@@ -20,7 +21,7 @@ public class PlayerMover : MonoBehaviour
 
         if (moveRoutine != null)
             StopCoroutine(moveRoutine);
-
+        runSFX.Play();
         moveRoutine = StartCoroutine(MoveRoutine(target));
     }
 
@@ -39,5 +40,6 @@ public class PlayerMover : MonoBehaviour
 
         transform.position = target.position;
         moveRoutine = null;
+        runSFX.Stop();
     }
 }
