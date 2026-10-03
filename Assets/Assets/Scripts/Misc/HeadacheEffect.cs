@@ -95,6 +95,7 @@ public class HeadacheEffect : MonoBehaviour
     public void StopHeadache()
     {
         headacheActive = false;
+        useTimer = false;
         headacheTimer = 0f;
         cameraMotionController.ReturnDefaultMovementSpeed();
         if (vignette != null)
