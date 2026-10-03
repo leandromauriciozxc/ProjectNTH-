@@ -64,6 +64,10 @@ namespace ProjectNTH.UI
         private float lastWidth = -1f;
 
         public bool IsOpen { get; private set; }
+        private static CreditsPanelUI openPanel;
+        public static bool AnyOpen => openPanel != null && openPanel.IsOpen;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetOpenPanel() => openPanel = null;
         public int CreditCount => rows.Count;
 
         private void Awake() => Initialize();
@@ -89,7 +93,7 @@ namespace ProjectNTH.UI
         {
             if (!gameObject.activeSelf) gameObject.SetActive(true);
             Initialize();
-            if (!isActiveAndEnabled || IsOpen || view == null) return;
+            if (!isActiveAndEnabled || IsOpen || AnyOpen || view == null) return;
             EnsureEventSystem();
             previousSelection = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
             if (menuToHide != null && menuToHide != gameObject && !transform.IsChildOf(menuToHide.transform))
@@ -115,6 +119,7 @@ namespace ProjectNTH.UI
                 Cursor.visible = true;
             }
             IsOpen = true;
+            openPanel = this;
             SetVisible(true);
             ApplySafeArea();
             Canvas.ForceUpdateCanvases();
@@ -129,6 +134,7 @@ namespace ProjectNTH.UI
         {
             if (!IsOpen) return;
             IsOpen = false;
+            if (openPanel == this) openPanel = null;
             SetVisible(false);
             if (scroll != null) scroll.StopMovement();
             foreach (var pair in suspended)

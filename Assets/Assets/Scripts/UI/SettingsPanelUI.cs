@@ -44,6 +44,11 @@ namespace ProjectNTH.UI
         private int resolutionIndex;
         private bool fullscreen;
         private bool initialized, menuWasActive;
+        private GameObject capturedMenu;
+        private static SettingsPanelUI openPanel;
+        public static bool AnyOpen => openPanel != null && openPanel.IsOpen;
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetOpenPanel() => openPanel = null;
         private CursorLockMode cursorLock;
         private bool cursorVisible;
         private GameObject previousSelection;
@@ -98,19 +103,22 @@ namespace ProjectNTH.UI
             revertDisplayButton.onClick.AddListener(RevertDisplay);
         }
 
-        public void Open()
+        public void Open() => OpenFrom(menuToHide);
+
+        public void OpenFrom(GameObject sourceMenu)
         {
             if (!gameObject.activeSelf) gameObject.SetActive(true);
             Initialize();
-            if (IsOpen || !isActiveAndEnabled || GameSettings.Instance == null) return;
+            if (IsOpen || AnyOpen || !isActiveAndEnabled || GameSettings.Instance == null) return;
             EnsureEventSystem();
             previousSelection = EventSystem.current.currentSelectedGameObject;
             cursorLock = Cursor.lockState;
             cursorVisible = Cursor.visible;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            menuWasActive = menuToHide != null && menuToHide.activeSelf && !transform.IsChildOf(menuToHide.transform);
-            if (menuWasActive) menuToHide.SetActive(false);
+            capturedMenu = sourceMenu;
+            menuWasActive = capturedMenu != null && capturedMenu.activeSelf && !transform.IsChildOf(capturedMenu.transform);
+            if (menuWasActive) capturedMenu.SetActive(false);
             foreach (var component in disableWhileOpen)
             {
                 if (component == null || component == this || component.transform.IsChildOf(transform) || suspended.ContainsKey(component)) continue;
@@ -118,6 +126,7 @@ namespace ProjectNTH.UI
                 component.enabled = false;
             }
             IsOpen = true;
+            openPanel = this;
             view.alpha = 0f;
             view.interactable = view.blocksRaycasts = true;
             var settings = GameSettings.Instance;
@@ -141,9 +150,11 @@ namespace ProjectNTH.UI
             if (!IsOpen) return;
             if (confirming) RevertDisplay();
             IsOpen = false;
+            if (openPanel == this) openPanel = null;
             view.alpha = 0f;
             view.interactable = view.blocksRaycasts = false;
-            if (menuWasActive && menuToHide != null) menuToHide.SetActive(true);
+            if (menuWasActive && capturedMenu != null) capturedMenu.SetActive(true);
+            capturedMenu = null;
             menuWasActive = false;
             foreach (var pair in suspended) if (pair.Key != null) pair.Key.enabled = pair.Value;
             suspended.Clear();

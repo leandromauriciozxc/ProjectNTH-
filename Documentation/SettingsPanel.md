@@ -55,7 +55,8 @@ The Graphics quality control selects the project's existing Unity quality profil
 - Add one to another scene using **Tools → Project NTH → Create Settings Panel**.
 - Connect a menu Button's **On Click** to **SettingsPanelUI.Open**.
 - Assign that menu's separate button root to **Menu To Hide**. Do not parent the settings panel underneath the menu root that it hides.
-- For a pause menu, assign movement, look, and interaction components to **Disable While Open**. This panel restores their previous enabled states. It does not itself pause time or install a gameplay Escape shortcut.
+- The existing pause menu uses **UiOtherController.OpenSettings**, which keeps the game paused and returns to PauseMenu when Settings closes. See [PauseMenu.md](PauseMenu.md). Main-menu buttons still use **SettingsPanelUI.Open**. Other callers can use `OpenFrom(menuRoot)` to choose which menu is restored.
+- **Disable While Open** is available for standalone integrations. The connected pause controller already suspends player controls; Settings itself does not own game time.
 - The panel starts invisible and does not block clicks while closed. To inspect its layout in Edit Mode, temporarily set the root Canvas Group Alpha to 1; put it back to 0 before saving. Page objects can be selected/activated individually for layout editing.
 - An EventSystem is reused if one exists; a standalone panel creates a fallback compatible with the project's Input System.
 
