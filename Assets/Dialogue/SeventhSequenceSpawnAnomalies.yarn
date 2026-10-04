@@ -1,5 +1,7 @@
 ﻿title: SeventhSequenceSpawnAnomalies
 ---
-Inday: The hell?? Ano na tabo di?
-Inday: Hello guys? okay lang kamo?
+<<play_sound TriggerToSpawnAnomaliesLockerArea MainChar16>>
+Rosetta: The hell? What happened here?
+<<play_sound TriggerToSpawnAnomaliesLockerArea MainChar17>>
+Rosetta: Hello guys? Are you all okay?
 ===

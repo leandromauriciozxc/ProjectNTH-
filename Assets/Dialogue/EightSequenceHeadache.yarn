@@ -1,6 +1,8 @@
 ﻿title: EightSequenceHeadache
 ---
-Inday: agay ah, sakit gd ya ulo ko!
-Inday: Need ko na gd mag inom bulong!
+<<play_sound TriggerToActivateHeadacePantryArea MainChar18>>
+Rosetta: Ouch! My head hurts really bad
+<<play_sound TriggerToActivateHeadacePantryArea MainChar19>>
+Rosetta: I really need to drink my medicine
 <<start_headache PostProcess>>
 ===
