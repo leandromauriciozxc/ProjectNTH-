@@ -1,5 +1,7 @@
 ﻿title: BlockToLocker
 ---
-Inday: Ay ang bag ko!
-Inday: Need ko i butang sa locker.
+<<play_sound TriggerToGoToLockerDialogue MainChar22>>
+Rosetta: Ay ang bag ko!
+<<play_sound TriggerToGoToLockerDialogue MainChar23>>
+Rosetta: Need ko i butang sa locker.
 ===
