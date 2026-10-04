@@ -1,12 +1,16 @@
 ﻿title: FourthSequenceManyakGuard
 ---
+<<play_sound MaleGuard Guard3>>
 Manong Guard: Hello gwapa!
-Inday: uhhhhhhh, hello nong
+<<play_sound MaleGuard MainChar8>>
+Rosetta: uhhh, hello
+<<play_sound MaleGuard Guard4>>
 Manong Guard: ID mo day wala naman aw! 
--> ay! sorry nong gadali ko gina b, palusuta lg ko pls!
-    Manong Guard: Pasalamat ka gwapa ka inday, hehehe ok ah!
--> Labot mo!
-    Manong Guard: Baw! suplada kay inday gwapa ba!
-Inday: Permi yako ni gina harangan kag tulok ya. Sabad!
+<<play_sound MaleGuard MainChar9>>
+Rosetta: Uh! Sorry I was in a hurry, can you let this slide?
+<<play_sound MaleGuard Guard5>>
+Manong Guard: Pasalamat ka gwapa ka inday, hehehe ok ah!
+<<play_sound MaleGuard MainChar10>>
+Rosetta: Always watching behind my back, such a nuisance
 <<anim_trigger MaleGuard normal>>
 ===

@@ -134,7 +134,7 @@ namespace ProjectNTH.UI
         {
             if (!isActiveAndEnabled || !HasTask || IsCompleting) return;
             SetExpanded(true);
-            collapseAt = Time.unscaledTime + Mathf.Max(0.1f, displayDuration)
+            collapseAt = AnimationTime + Mathf.Max(0.1f, displayDuration)
                 + (expansion < 1f ? Mathf.Max(0f, animationDuration) : 0f);
             root.gameObject.SetActive(true);
         }
@@ -180,8 +180,11 @@ namespace ProjectNTH.UI
             root.gameObject.SetActive(true);
         }
 
+        private static float AnimationTime => (float)global::UiOtherController.GameplayUnscaledTime;
+
         private void Update()
         {
+            if (global::UiOtherController.IsGamePaused) return;
             if (!HasTask)
             {
                 if (phase != Phase.Hidden) ClearTask();
@@ -189,9 +192,9 @@ namespace ProjectNTH.UI
             }
             if (phase == Phase.Hidden) BeginEntrance(showOnEnable);
             if (TabPressed() && !IsTyping()) Reveal();
-            if (phase == Phase.Ready && expanded && Time.unscaledTime >= collapseAt) Collapse();
+            if (phase == Phase.Ready && expanded && AnimationTime >= collapseAt) Collapse();
             float duration = Mathf.Max(0f, animationDuration);
-            float t = duration == 0f ? 1f : Mathf.Clamp01((Time.unscaledTime - animationStarted) / duration);
+            float t = duration == 0f ? 1f : Mathf.Clamp01((AnimationTime - animationStarted) / duration);
             float eased = 1f - Mathf.Pow(1f - t, 3f);
             expansion = Mathf.Lerp(animationFrom, animationTarget, eased);
             if (layoutDirty || canvasRect.rect.size != lastCanvasSize || Screen.safeArea != lastSafeArea)
@@ -203,11 +206,11 @@ namespace ProjectNTH.UI
         private void SetPhase(Phase value)
         {
             phase = value;
-            phaseStarted = Time.unscaledTime;
+            phaseStarted = AnimationTime;
         }
 
         private float PhaseProgress(float duration) => duration <= 0f ? 1f
-            : Mathf.Clamp01((Time.unscaledTime - phaseStarted) / duration);
+            : Mathf.Clamp01((AnimationTime - phaseStarted) / duration);
 
         private static float EaseOut(float t) => 1f - Mathf.Pow(1f - t, 3f);
 
@@ -222,7 +225,7 @@ namespace ProjectNTH.UI
                         presence = EaseOut(PhaseProgress(entranceDuration));
                         if (presence < 1f || (expanded && expansion < 1f)) return;
                         SetPhase(Phase.Ready);
-                        collapseAt = Time.unscaledTime + Mathf.Max(0.1f, displayDuration);
+                        collapseAt = AnimationTime + Mathf.Max(0.1f, displayDuration);
                         return;
                     case Phase.CompletingReveal:
                         presence = Mathf.Lerp(completionRevealFrom, 1f, EaseOut(PhaseProgress(entranceDuration)));
@@ -261,7 +264,7 @@ namespace ProjectNTH.UI
             if (animationTarget == target) return;
             animationFrom = expansion;
             animationTarget = target;
-            animationStarted = Time.unscaledTime;
+            animationStarted = AnimationTime;
         }
 
         private static bool TabPressed()

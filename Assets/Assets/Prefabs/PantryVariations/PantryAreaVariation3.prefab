@@ -11436,6 +11436,7 @@ GameObject:
   - component: {fileID: 6595702847545847475}
   - component: {fileID: 8562779856703550145}
   - component: {fileID: 2170507300206764197}
+  - component: {fileID: 1420924442868561593}
   m_Layer: 0
   m_Name: SM_Fire_Extinguisher.mo (1)
   m_TagString: Untagged
@@ -11508,6 +11509,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1420924442868561593
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312435578584705560}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0015730826, y: 0.0027221083, z: 0.0058726333}
+  m_Center: {x: -0.000000009323832, y: -0.000000030109497, z: 0.002953964}
 --- !u!1 &8333238999424406004
 GameObject:
   m_ObjectHideFlags: 0
@@ -14121,8 +14143,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0ab136af00644a442beee9748e614854,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4227970900145107472}
   m_SourcePrefab: {fileID: 100100000, guid: 0ab136af00644a442beee9748e614854, type: 3}
+--- !u!1 &8497687622143923505 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0ab136af00644a442beee9748e614854,
+    type: 3}
+  m_PrefabInstance: {fileID: 8731547357211158624}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4227970900145107472
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8497687622143923505}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.004854379, y: 0.0024936558, z: 0.0066098366}
+  m_Center: {x: -0.000040779167, y: -0.0012421116, z: -0.00000000547152}
 --- !u!4 &9125992081094807435 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0ab136af00644a442beee9748e614854,

@@ -18,8 +18,19 @@ public class YarnAudioController : MonoBehaviour
     [SerializeField] private AudioClip MainChar5;
     [SerializeField] private AudioClip MainChar6;
     [SerializeField] private AudioClip MainChar7;
+    [SerializeField] private AudioClip MainChar8;
+    [SerializeField] private AudioClip MainChar9;
+    [SerializeField] private AudioClip MainChar10;
+    [SerializeField] private AudioClip MainChar11;
+    [SerializeField] private AudioClip MainChar12;
+    [SerializeField] private AudioClip MainChar13;
+    [SerializeField] private AudioClip MainChar14;
+    [SerializeField] private AudioClip MainChar15;
     [SerializeField] private AudioClip Guard1;
     [SerializeField] private AudioClip Guard2;
+    [SerializeField] private AudioClip Guard3;
+    [SerializeField] private AudioClip Guard4;
+    [SerializeField] private AudioClip Guard5;
     [SerializeField] private AudioClip Step1;
     [SerializeField] private AudioClip Step2;
     [SerializeField] private AudioClip Step3;
@@ -77,12 +88,53 @@ public class YarnAudioController : MonoBehaviour
                 clip = MainChar7;
                 break;
 
+            case "MainChar8":
+                clip = MainChar8;
+                break;
+
+            case "MainChar9":
+                clip = MainChar9;
+                break;
+
+            case "MainChar10":
+                clip = MainChar10;
+                break;
+
+            case "MainChar11":
+                clip = MainChar11;
+                break;
+
+            case "MainChar12":
+                clip = MainChar12;
+                break;
+
+            case "MainChar13":
+                clip = MainChar13;
+                break;
+
+            case "MainChar14":
+                clip = MainChar14;
+                break;
+
+            case "MainChar15":
+                clip = MainChar15;
+                break;
+
             case "Guard1":
                 clip = Guard1;
                 break;
 
             case "Guard2":
                 clip = Guard2;
+                break;
+            case "Guard3":
+                clip = Guard3;
+                break;
+            case "Guard4":
+                clip = Guard4;
+                break;
+            case "Guard5":
+                clip = Guard5;
                 break;
 
             case "Step1":
@@ -112,7 +164,15 @@ public class YarnAudioController : MonoBehaviour
             return;
         }
 
+        if (audioSource == null)
+        {
+            Debug.LogWarning("Yarn audio needs an Audio Source.", this);
+            return;
+        }
         audioSource.Stop();
+        bool effect = soundName == "door_slam";
+        ProjectNTH.Settings.GameSettings.Route(audioSource, effect
+            ? ProjectNTH.Settings.AudioCategory.SoundEffects : ProjectNTH.Settings.AudioCategory.Dialogue);
         audioSource.clip = clip;
         audioSource.Play();
     }

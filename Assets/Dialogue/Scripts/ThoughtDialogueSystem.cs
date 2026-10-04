@@ -111,13 +111,15 @@ namespace ProjectNTH.Dialogue
             group = null;
         }
 
+        private static float ThoughtTime => (float)global::UiOtherController.GameplayUnscaledTime;
+
         private void Update()
         {
             if (canvas != null && (lastCanvasSize != ((RectTransform)canvas.transform).rect.size || lastSafeArea != Screen.safeArea))
                 RefreshLayout();
-            if (!processing && pending.Count > 0 && !IsConversationRunning) ProcessQueue().Forget();
+            if (!processing && pending.Count > 0 && !IsConversationRunning && !global::UiOtherController.IsGamePaused) ProcessQueue().Forget();
             // Hide immediately, including when a normal conversation starts between two async frames.
-            if (IsConversationRunning && group != null) group.alpha = 0f;
+            if ((IsConversationRunning || global::UiOtherController.IsGamePaused) && group != null) group.alpha = 0f;
         }
 
         private void ResolveConversation()
@@ -156,7 +158,7 @@ namespace ProjectNTH.Dialogue
             {
                 while (this != null && isActiveAndEnabled && runRevision == revision && pending.Count > 0)
                 {
-                    while (this != null && IsConversationRunning && runRevision == revision && isActiveAndEnabled) await YarnTask.Yield();
+                    while (this != null && (IsConversationRunning || global::UiOtherController.IsGamePaused) && runRevision == revision && isActiveAndEnabled) await YarnTask.Yield();
                     if (this == null || runRevision != revision || !isActiveAndEnabled) break;
                     PrepareRunner();
                     CurrentNode = pending.Dequeue();
@@ -205,7 +207,7 @@ namespace ProjectNTH.Dialogue
             float fadeOut = Mathf.Max(0f, fadeOutDuration);
             float total = fadeIn + hold + fadeOut;
             float elapsed = 0f;
-            float previousTime = Time.unscaledTime;
+            float previousTime = ThoughtTime;
             group.alpha = 0f;
             while (!Cancelled(lineRevision, token) && elapsed < total)
             {
@@ -215,20 +217,20 @@ namespace ProjectNTH.Dialogue
                     // Resume with a fresh fade and full reading time once the conversation ends.
                     elapsed = 0f;
                 }
-                else
+                else if (!global::UiOtherController.IsGamePaused)
                 {
                     if (elapsed < fadeIn) group.alpha = Ease(elapsed / fadeIn);
                     else if (elapsed < fadeIn + hold) group.alpha = 1f;
                     else group.alpha = fadeOut > 0f ? 1f - Ease((elapsed - fadeIn - hold) / fadeOut) : 0f;
-                    elapsed += Mathf.Max(0f, Time.unscaledTime - previousTime);
+                    elapsed += Mathf.Max(0f, ThoughtTime - previousTime);
                 }
-                previousTime = Time.unscaledTime;
+                previousTime = ThoughtTime;
                 await YarnTask.Yield();
             }
             if (lineRevision != revision || this == null) return;
             HideLine();
-            float end = Time.unscaledTime + Mathf.Max(0f, gapBetweenLines);
-            while (!Cancelled(lineRevision, token) && Time.unscaledTime < end) await YarnTask.Yield();
+            float end = ThoughtTime + Mathf.Max(0f, gapBetweenLines);
+            while (!Cancelled(lineRevision, token) && ThoughtTime < end) await YarnTask.Yield();
         }
 
         private bool Cancelled(int expectedRevision, LineCancellationToken token) =>

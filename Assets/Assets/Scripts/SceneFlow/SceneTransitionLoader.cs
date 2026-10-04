@@ -15,6 +15,11 @@ namespace ProjectNTH.SceneFlow
         [Min(0f), SerializeField] private float minimumBlackDuration = 0.2f;
         [Tooltip("Additional time under black after scene activation and Start, before fading in.")]
         [Min(0f), SerializeField] private float sceneSettleDuration = 0.15f;
+        [Header("Loading")]
+        [Tooltip("Give loading more processing time and temporarily remove the FPS limit only while fully black. Previous settings are restored before fading in. Loading priority affects builds, not the Editor.")]
+        [SerializeField] private bool prioritizeLoadingWhileBlack = true;
+        [Tooltip("Write the load/activation, black-screen and total transition times to the Console or Player log.")]
+        [SerializeField] private bool logTransitionTimings;
         [Header("Optional gameplay control")]
         [Tooltip("Movement, camera-look or interaction components to suspend during the fade. Components that survive the scene change are restored afterward.")]
         [SerializeField] private Behaviour[] disableDuringTransition = new Behaviour[0];
@@ -39,7 +44,8 @@ namespace ProjectNTH.SceneFlow
             }
             requested = true;
             SceneTransitionRunner.Begin(destination, fadeOutDuration, fadeInDuration,
-                minimumBlackDuration, sceneSettleDuration, disableDuringTransition);
+                minimumBlackDuration, sceneSettleDuration, disableDuringTransition,
+                prioritizeLoadingWhileBlack, logTransitionTimings);
             return true;
         }
     }

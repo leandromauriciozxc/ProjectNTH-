@@ -2,11 +2,14 @@
 ---
 <<play_sound StephenDialogueTrigger Step1>>
 Step: Sup
-Inday: Pangibot kada ba, ubra nato!
+<<play_sound StephenDialogueTrigger MainChar11>>
+Inday: You scare people, instead of working
 <<play_sound StephenDialogueTrigger Step2>>
-Step: Later broskie, tamad pa si anteh mo
-Inday: Akigan kada karon ni TL!
+Step: Later broskie, just want to slack a little longer
+<<play_sound StephenDialogueTrigger MainChar12>>
+Inday: TL might get mad
 <<play_sound StephenDialogueTrigger Step3>>
 Step: I dont care
-Inday: Isog ba!
+<<play_sound StephenDialogueTrigger MainChar13>>
+Inday: Suit yourself!
 ===

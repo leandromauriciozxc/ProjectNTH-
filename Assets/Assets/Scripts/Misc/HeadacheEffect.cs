@@ -8,6 +8,8 @@ public class HeadacheEffect : MonoBehaviour
 {
     [SerializeField] private Volume volume;
     [SerializeField] private CameraMotionController cameraMotionController;
+    [SerializeField] private AudioSource headAche;
+    [SerializeField] private AudioSource headAcheRinging;
     [Header("Headache")]
     [SerializeField] private bool useTimer = false;
     [SerializeField] private float duration = 5f;
@@ -86,6 +88,9 @@ public class HeadacheEffect : MonoBehaviour
     }
     public void StartHeadache()
     {
+        headAche.Play();
+        headAcheRinging.Play();
+        cameraMotionController.SetMovementAndSpeed();
         volume.enabled = true;  
         headacheActive = true;
         headacheTimer = duration;
@@ -94,6 +99,8 @@ public class HeadacheEffect : MonoBehaviour
     [YarnCommand("stop_headache")]
     public void StopHeadache()
     {
+        headAche.Stop();
+        headAcheRinging.Stop();
         headacheActive = false;
         useTimer = false;
         headacheTimer = 0f;

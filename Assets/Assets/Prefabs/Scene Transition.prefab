@@ -50,6 +50,8 @@ MonoBehaviour:
   fadeInDuration: 0.7
   minimumBlackDuration: 0.2
   sceneSettleDuration: 0.15
+  prioritizeLoadingWhileBlack: 1
+  logTransitionTimings: 0
   disableDuringTransition: []
 --- !u!114 &11400001
 MonoBehaviour:

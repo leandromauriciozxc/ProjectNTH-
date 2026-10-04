@@ -20,8 +20,8 @@ public class CameraMotionController : MonoBehaviour
 
     public void SetMovementAndSpeed()
     {
-        movement.walkSpeed = 1f;
-        movement.runSpeed = 1.5f;
+        movement.walkSpeed = .8f;
+        movement.runSpeed = 1f;
     }
     public void ReturnDefaultMovementSpeed()
     {
