@@ -1,15 +1,15 @@
 ﻿title: FourthSequenceManyakGuard
 ---
 <<play_sound MaleGuard Guard3>>
-Manong Guard: Hello gwapa!
+Manong Guard: Hello beautiful!
 <<play_sound MaleGuard MainChar8>>
-Rosetta: uhhh, hello
+Rosetta: Uhhh, Hello
 <<play_sound MaleGuard Guard4>>
-Manong Guard: ID mo day wala naman aw! 
+Manong Guard: Where's your ID? 
 <<play_sound MaleGuard MainChar9>>
 Rosetta: Uh! Sorry I was in a hurry, can you let this slide?
 <<play_sound MaleGuard Guard5>>
-Manong Guard: Pasalamat ka gwapa ka inday, hehehe ok ah!
+Manong Guard: Good thing you're beautiful, no worries
 <<play_sound MaleGuard MainChar10>>
 Rosetta: Always watching behind my back, such a nuisance
 <<anim_trigger MaleGuard normal>>

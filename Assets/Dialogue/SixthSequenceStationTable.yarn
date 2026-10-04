@@ -1,7 +1,9 @@
 ﻿title: SixthSequenceStationTable
 ---
-Inday: Ouch! sakit sang ulo ko ba!! Nalipat ko mag inom bulong,
-Inday: Pa locker ko danay, kag pa pantry! 
+<<play_sound StationTable MainChar14>>
+Rosetta: Uh! My head is killing me! I forgot to drink my medicine
+<<play_sound StationTable MainChar15>>
+Rosetta: I need to head to the pantry and locker!
 <<stop_headache PostProcess>>
 <<hide_gameobject vcamStationMainCharacter>>
 ===
