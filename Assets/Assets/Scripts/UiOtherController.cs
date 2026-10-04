@@ -60,6 +60,29 @@ public class UiOtherController : MonoBehaviour
         if (pauseMenu.GetComponent<GraphicRaycaster>() == null) pauseMenu.AddComponent<GraphicRaycaster>();
     }
 
+    private void Start()
+    {
+        // Outdoor starts at its menu; scenes without a main menu start in gameplay.
+        if (!IsGamePaused && !HasOpenPanel()) SetMenuCursor(IsMainMenuVisible);
+    }
+
+    /// <summary>Add to the Play button alongside its existing gameplay-start events.</summary>
+    public void BeginGameplay()
+    {
+        if (!isActiveAndEnabled || IsGamePaused || HasOpenPanel()) return;
+        if (mainMenu != null) mainMenu.SetActive(false);
+        SetMenuCursor(false);
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private bool IsMainMenuVisible => mainMenu != null && mainMenu.activeInHierarchy;
+
+    private static void SetMenuCursor(bool visible)
+    {
+        Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = visible;
+    }
+
     private void Update()
     {
         // Settings handles Escape in LateUpdate. Let it consume the key first, one menu per press.
@@ -93,14 +116,15 @@ public class UiOtherController : MonoBehaviour
         foreach (var component in disableWhilePaused) Suspend(component);
         Time.timeScale = 0f;
         if (pauseAudio) AudioListener.pause = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        SetMenuCursor(true);
         pauseMenu.SetActive(true);
         EnsureEventSystem();
         EventSystem.current.SetSelectedGameObject(firstSelected != null ? firstSelected.gameObject : null);
     }
 
-    public void Resume()
+    public void Resume() => EndPause(true);
+
+    private void EndPause(bool returnToGameplay)
     {
         if (!IsPaused) return;
         // Close the child first so its cursor/menu restoration cannot undo ours.
@@ -114,8 +138,14 @@ public class UiOtherController : MonoBehaviour
         if (pauseAudio) AudioListener.pause = previousAudioPause;
         foreach (var pair in suspended) if (pair.Key != null) pair.Key.enabled = pair.Value;
         suspended.Clear();
-        Cursor.lockState = previousCursorLock;
-        Cursor.visible = previousCursorVisible;
+        if (returnToGameplay)
+            SetMenuCursor(IsMainMenuVisible);
+        else
+        {
+            // Disabling/unloading the controller is cleanup, not a gameplay Resume click.
+            Cursor.lockState = previousCursorLock;
+            Cursor.visible = previousCursorVisible;
+        }
         if (EventSystem.current != null)
             EventSystem.current.SetSelectedGameObject(previousSelection != null && previousSelection.activeInHierarchy ? previousSelection : null);
         previousSelection = null;
@@ -178,10 +208,10 @@ public class UiOtherController : MonoBehaviour
 #endif
     }
 
-    private void OnDisable() => Resume();
+    private void OnDisable() => EndPause(false);
     private void OnDestroy()
     {
-        Resume();
+        EndPause(false);
         if (ownedSettings != null) Destroy(ownedSettings.gameObject);
     }
     public void Quit()
