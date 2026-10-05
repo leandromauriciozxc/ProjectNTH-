@@ -1,7 +1,7 @@
 ﻿title: BlockToLocker
 ---
 <<play_sound TriggerToGoToLockerDialogue MainChar22>>
-Rosetta: Ay ang bag ko!
+Rosetta: Oh my bag!
 <<play_sound TriggerToGoToLockerDialogue MainChar23>>
-Rosetta: Need ko i butang sa locker.
+Rosetta: I need to put it in my locker
 ===

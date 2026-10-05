@@ -1,11 +1,11 @@
 ﻿title: SecondSequenceGuard
 ---
 <<play_sound GuardTrigger Guard1>>
-Manong Guard: Madam! Make it faster, I'm gonna close this thing up!
+Police: Madam! Make it faster, I'm gonna close this thing up!
 <<play_sound GuardTrigger MainChar4>>
 Rosetta: Chill! I'm about to go out anyways
 <<play_sound GuardTrigger Guard2>>
-Manong Guard: Faster! The door won't close itself! Weren't you informed that there's a curfew?
+Police: Faster! The door won't close itself! Weren't you informed that there's a curfew?
 <<play_sound GuardTrigger MainChar5>>
 Rosetta: So uptight!
 ===

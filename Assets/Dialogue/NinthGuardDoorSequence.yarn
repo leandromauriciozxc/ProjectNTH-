@@ -1,9 +1,9 @@
 ﻿title: NinthGuardDoorSequence
 ---
 <<play_sound GuardDoor MainChar20>>
-Rosetta: Nong! gina ta pa ka gina pangita!
+Rosetta: Guard, I was looking for you!
 <<play_sound GuardDoor MainChar21>>
-Rosetta: Nong?
+Rosetta: Guard?
 <<anim_trigger GuardManyakChaseScene goRun>>
 <<move GuardManyakChaseScene>>
 ===
