@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ced1090c2a48e3b0836543e90dd2b6, type: 3}
+  m_Name: Jan
+  m_EditorClassIdentifier: 
+  displayName: Jan
+  voiceVolume: 1
+  sounds:
+  - id: 100d2f3cd2254dd88e6156d8d8c74ae9
+    label: Greeting
+    kind: 0
+    clip: {fileID: 8300000, guid: 026776a8c46632d429b2399f5e5b3fc4, type: 3}
+    volume: 1
+  - id: 1198db8ce8ef4548a80e12ea76747b30
+    label: Take care
+    kind: 0
+    clip: {fileID: 8300000, guid: 5d72784c02dab3541a78504febd9951b, type: 3}
+    volume: 1
